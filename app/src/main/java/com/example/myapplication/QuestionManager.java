@@ -45,6 +45,7 @@ public class QuestionManager extends AppCompatActivity implements View.OnClickLi
     int suma_Fallo=-50;
     int Puntuacion=0;
     int n_preguntas_totales;
+    int n_preguntas_test;
     String TipoPreguntaActual;
     String Respuesta;
     int n_pregunta=1;
@@ -76,8 +77,12 @@ public class QuestionManager extends AppCompatActivity implements View.OnClickLi
 
         Cargar_preguntas();
 
+        Bundle b=this.getIntent().getExtras();
+        n_preguntas_test=b.getInt("n_preguntas");
         n_preguntas_totales = todasPreguntas.size();
-        ((TextView)findViewById(R.id.TxtPreguntasContestadas)).setText(n_pregunta+"/"+n_preguntas_totales);
+
+
+        ((TextView)findViewById(R.id.TxtPreguntasContestadas)).setText(n_pregunta+"/"+n_preguntas_test);
 
         /*Crea una lista de las posiciones disponibles para ordenar de manera aletoria las preguntas*/
         List<Integer> PosicionesDisponibles = new ArrayList<Integer>();
@@ -86,7 +91,7 @@ public class QuestionManager extends AppCompatActivity implements View.OnClickLi
         }
 
         /*Añade en la lista de preguntas las preguntas leidas de string.xml cogidas de manera aleatoria por su "name" */
-        for(int i=0;i<n_preguntas_totales;i++){
+        for(int i=0;i<n_preguntas_test;i++){
             int randomNum = rnd.nextInt((PosicionesDisponibles.size()));
             preguntas.add(todasPreguntas.get(PosicionesDisponibles.get(randomNum)));
             PosicionesDisponibles.remove(randomNum);
@@ -176,7 +181,7 @@ public class QuestionManager extends AppCompatActivity implements View.OnClickLi
             deshabilitarCambiosRadioGroup((RadioGroup) findViewById(R.id.Rgbtn_button),true);
             TipoPreguntaActual=preguntas.get(0).tipo;
             n_pregunta++;
-            ((TextView)findViewById(R.id.TxtPreguntasContestadas)).setText(n_pregunta+"/"+n_preguntas_totales);
+            ((TextView)findViewById(R.id.TxtPreguntasContestadas)).setText(n_pregunta+"/"+n_preguntas_test);
         }
         else{
             if(Estado_validar==0) {
@@ -284,7 +289,7 @@ public class QuestionManager extends AppCompatActivity implements View.OnClickLi
                 Intent intent;
                 intent = new Intent(this, Resultados.class);
                 intent.putExtra("puntuacion", Puntuacion);
-                intent.putExtra("n_preguntas_totales", n_preguntas_totales);
+                intent.putExtra("num_preguntas", n_preguntas_test);
                 startActivity(intent);
             }
         }

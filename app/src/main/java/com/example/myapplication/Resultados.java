@@ -16,7 +16,7 @@ public class Resultados extends AppCompatActivity implements View.OnClickListene
     private TextView textScore;
     private Animation scaleUp,scaleDown;
 
-    private int n_preguntas_totales;
+    private int num_preguntas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +24,7 @@ public class Resultados extends AppCompatActivity implements View.OnClickListene
         setContentView(R.layout.activity_resultados);
 
         int puntuacion = (int) getIntent().getSerializableExtra("puntuacion");
-        n_preguntas_totales= (int) getIntent().getSerializableExtra("n_preguntas_totales");
+        num_preguntas= (int) getIntent().getSerializableExtra("num_preguntas");
         textScore = findViewById(R.id.Text_Puntuacion);
         textScore.setText("Puntuacion Final \n \n" + puntuacion +" pts");
 
@@ -43,7 +43,7 @@ public class Resultados extends AppCompatActivity implements View.OnClickListene
 
         Intent intent;
         intent = new Intent(this, QuestionManager.class);
-        intent.putExtra("n_preguntas_totales", n_preguntas_totales);
+        intent.putExtra("n_preguntas", num_preguntas);
         startActivity(intent);
     }
 }
