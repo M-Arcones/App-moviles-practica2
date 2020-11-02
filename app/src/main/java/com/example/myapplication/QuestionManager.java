@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.annotation.SuppressLint;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -52,6 +53,11 @@ public class QuestionManager extends AppCompatActivity implements View.OnClickLi
     Date date;
     Random rnd;
 
+    private DbManager dbManager;
+    Cursor c_preguntas;
+    Cursor c_respuestas;
+    Cursor c_imagenes;
+
     ArrayList<Pregunta> todasPreguntas = new ArrayList<>();
     ArrayList<Pregunta> preguntas = new ArrayList<>();
 
@@ -68,12 +74,10 @@ public class QuestionManager extends AppCompatActivity implements View.OnClickLi
         rnd = new Random();
         rnd.setSeed(date.getTime());//cambiar a la hora
 
-        parseXML();
+        Cargar_preguntas();
 
         n_preguntas_totales = todasPreguntas.size();
         ((TextView)findViewById(R.id.TxtPreguntasContestadas)).setText(n_pregunta+"/"+n_preguntas_totales);
-
-
 
         /*Crea una lista de las posiciones disponibles para ordenar de manera aletoria las preguntas*/
         List<Integer> PosicionesDisponibles = new ArrayList<Integer>();
@@ -472,79 +476,58 @@ public class QuestionManager extends AppCompatActivity implements View.OnClickLi
     }
 
 
-    //Coger fichero XML de preguntas de la caprte Raw
-    private void parseXML(){
-        XmlPullParserFactory parserFactory;
-        try{
-            parserFactory = XmlPullParserFactory.newInstance();
-            XmlPullParser parser = parserFactory.newPullParser();
-            InputStream recursoRaw = getResources().openRawResource(R.raw.preguntas);
-            parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
-            parser.setInput(recursoRaw,null);
+    public void Cargar_preguntas(){
+        this.dbManager = new DbManager(this);
+        c_preguntas=dbManager.getPreguntas();
 
-            processParsing(parser);
-
-        }catch (XmlPullParserException | IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    //Leer XML especifico de preguntas
-    private void processParsing(XmlPullParser parser) throws XmlPullParserException, IOException {
-
-        int eventType = parser.getEventType();
+        c_preguntas.moveToFirst();
         Pregunta preguntaActual = null;
-
-        while(eventType != XmlPullParser.END_DOCUMENT){
-            String etiqueta = null;
-
-            switch (eventType) {
-                case XmlPullParser.START_TAG:
-                    etiqueta = parser.getName();
-
-                    if ("tipo".equals(etiqueta)) {
-                        switch (parser.nextText()) {
-                            case "Button":
-                                preguntaActual = new Pregunta("Button");
-                                break;
-                            case "Seekbar":
-                                preguntaActual = new Pregunta("Seekbar");
-                                break;
-                            case "Imagen":
-                                preguntaActual = new Pregunta("Imagen");
-                                break;
-                            case "Multiple":
-                                preguntaActual = new Pregunta("Multiple");
-                                break;
-                            case "Switch":
-                                preguntaActual = new Pregunta("Switch");
-                                break;
-                            case "ButtonImagen":
-                                preguntaActual = new Pregunta("ButtonImagen");
-                                break;
-                        }
-                    } else if (preguntaActual != null) {
-                        if ("ask".equals(etiqueta)) {
-                            preguntaActual.pregunta = parser.nextText();
-                        } else if ("explicacion".equals(etiqueta)) {
-                            preguntaActual.explicacion = parser.nextText();
-                        } else if ("solucion".equals(etiqueta)) {
-                            preguntaActual.solucion = parser.nextText();
-                            todasPreguntas.add(preguntaActual);
-                            preguntaActual=null;
-                        } else if ("respuesta".equals(etiqueta)) {
-                            preguntaActual.respuestas.add(parser.nextText());
-                        } else if ("min".equals(etiqueta)) {
-                            preguntaActual.min = Integer.parseInt(parser.nextText());
-                        } else if ("max".equals(etiqueta)) {
-                            preguntaActual.max = Integer.parseInt(parser.nextText());
-                        } else if("imagen".equals(etiqueta)){
-                            preguntaActual.imagenes.add(parser.nextText());
-                        }
-                    }
+        while(!c_preguntas.isAfterLast()) {
+            switch (c_preguntas.getString(c_preguntas.getColumnIndex(DbContract.DbEntry.COLUMN_TIPO))) {
+                case "Button":
+                    preguntaActual = new Pregunta("Button");
+                    break;
+                case "Seekbar":
+                    preguntaActual = new Pregunta("Seekbar");
+                    break;
+                case "Imagen":
+                    preguntaActual = new Pregunta("Imagen");
+                    break;
+                case "Multiple":
+                    preguntaActual = new Pregunta("Multiple");
+                    break;
+                case "Switch":
+                    preguntaActual = new Pregunta("Switch");
+                    break;
+                case "ButtonImagen":
+                    preguntaActual = new Pregunta("ButtonImagen");
                     break;
             }
-            eventType = parser.next();
+            preguntaActual.pregunta = c_preguntas.getString(c_preguntas.getColumnIndex(DbContract.DbEntry.COLUMN_ASK));
+            preguntaActual.explicacion = c_preguntas.getString(c_preguntas.getColumnIndex(DbContract.DbEntry.COLUMN_EXPLICACION));
+            preguntaActual.solucion = c_preguntas.getString(c_preguntas.getColumnIndex(DbContract.DbEntry.COLUMN_SOLUCION));
+            preguntaActual.min = c_preguntas.getInt(c_preguntas.getColumnIndex(DbContract.DbEntry.COLUMN_MIN));
+            preguntaActual.max = c_preguntas.getInt(c_preguntas.getColumnIndex(DbContract.DbEntry.COLUMN_MAX));
+            if(c_preguntas.getInt(c_preguntas.getColumnIndex(DbContract.DbEntry.COLUMN_ID_RESPUESTA))!=0){
+                c_respuestas = dbManager.getRespuestas(c_preguntas.getInt(c_preguntas.getColumnIndex(DbContract.DbEntry.COLUMN_ID_RESPUESTA)));
+                c_respuestas.moveToFirst();
+                while(!c_respuestas.isAfterLast()) {
+                    preguntaActual.respuestas.add(c_respuestas.getString(c_respuestas.getColumnIndex(DbContract.DbEntry.COLUMN_RESPUESTA)));
+                    c_respuestas.moveToNext();
+                }
+            }
+            if(c_preguntas.getInt(c_preguntas.getColumnIndex(DbContract.DbEntry.COLUMN_ID_IMAGEN))!=0){
+                c_imagenes = dbManager.getImagenes(c_preguntas.getInt(c_preguntas.getColumnIndex(DbContract.DbEntry.COLUMN_ID_IMAGEN)));
+                c_imagenes.moveToFirst();
+                while(!c_imagenes.isAfterLast()) {
+                    preguntaActual.imagenes.add(c_imagenes.getString(c_imagenes.getColumnIndex(DbContract.DbEntry.COLUMN_IMAGEN)));
+                    c_imagenes.moveToNext();
+                }
+            }
+            c_preguntas.moveToNext();
+            todasPreguntas.add(preguntaActual);
+            preguntaActual=null;
         }
     }
+
 }
