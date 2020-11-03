@@ -192,9 +192,104 @@ public class QuestionManager extends AppCompatActivity implements View.OnClickLi
         btn_validar.startAnimation(scaleDown);
         btn_validar.startAnimation(scaleUp);
         int valorResuesta=suma_Fallo;
-        if (Estado_validar==1){
-            ((TextView) findViewById(R.id.BtnValidar_SigPregunta)).setText("Validar Respuesta");
-            Estado_validar=0;
+
+        deshabilitarCambiosLayout((LinearLayout) findViewById(R.id.LayoutMultipleRespuesta),false);
+        deshabilitarCambiosLayout((LinearLayout) findViewById(R.id.LayoutRespuestaButtonImagen),true);
+        deshabilitarCambiosRadioGroup((RadioGroup) findViewById(R.id.Rgbtn_button),false);
+        deshabilitarCambiosLayout((LinearLayout) findViewById(R.id.LayoutSwitch),false);
+
+        switch (preguntas.get(0).tipo){
+            case "Button":
+            case "Imagen":
+                RadioButton ArrayRespRadioButton[]= { ((RadioButton)findViewById(R.id.RbtnResp1)),
+                        ((RadioButton)findViewById(R.id.RbtnResp2)),
+                        ((RadioButton)findViewById(R.id.RbtnResp3)),
+                        ((RadioButton)findViewById(R.id.RbtnResp4))};
+                for (int i=0;i<4;i++){
+                    if(ArrayRespRadioButton[i].isChecked()){
+                        if(ArrayRespRadioButton[i].getText().equals(preguntas.get(0).solucion)){
+                            valorResuesta=suma_Acierto;
+                        }
+                        i=4;
+                    }
+                }
+            break;
+            case "Seekbar":
+                //calcular puntos
+                if(Integer.parseInt(((TextView) findViewById(R.id.TxtskbValorSeleccionado)).getText().toString())==Integer.parseInt((preguntas.get(0).solucion))){
+                    valorResuesta=suma_Acierto;
+                }
+                //Corregir
+                /*if(valorResuesta==suma_Fallo){
+                    ((SeekBar)  findViewById(R.id.Skb_BarraRespuestas)).setProgress(Integer.parseInt((Preguntas.get(0)[Preguntas.get(0).length-1]))-Integer.parseInt((Preguntas.get(0)[2])));
+                    int resultadoa=Integer.parseInt((Preguntas.get(0)[Preguntas.get(0).length-1]))-Integer.parseInt((Preguntas.get(0)[2]));
+                    ((TextView)findViewById(R.id.TxtskbValorSeleccionado)).setText("" +Preguntas.get(0)[Preguntas.get(0).length-1]);
+                }else{
+
+                }*/
+            break;
+            case "Multiple":
+                CheckBox ArrayRespCheckBox[]={((CheckBox)findViewById(R.id.ChkB_Resp1)),
+                                                ((CheckBox)findViewById(R.id.ChkB_Resp2)),
+                                                ((CheckBox)findViewById(R.id.ChkB_Resp3)),
+                                                ((CheckBox)findViewById(R.id.ChkB_Resp4)),
+                                                ((CheckBox)findViewById(R.id.ChkB_Resp5)),
+                                                ((CheckBox)findViewById(R.id.ChkB_Resp6))};
+                int N_respuestas=countChar(preguntas.get(0).solucion,'|');
+                int cont_respCorrrectas=0;
+                for (int i=0;i<preguntas.get(0).respuestas.size();i++){
+                    if(ArrayRespCheckBox[i].isChecked()){
+                        if(preguntas.get(0).solucion.contains(ArrayRespCheckBox[i].getText())){
+                            cont_respCorrrectas+=1;
+                        }else {
+                            cont_respCorrrectas=0;
+                            i=preguntas.get(0).respuestas.size();
+                        }
+                    }
+                }
+                if(cont_respCorrrectas==N_respuestas){
+                    valorResuesta=suma_Acierto;
+                }
+            break;
+            case "Switch":
+                if (((Switch)findViewById(R.id.Switch)).isChecked()==Boolean.parseBoolean(preguntas.get(0).solucion)){
+                    valorResuesta=suma_Acierto;
+                }
+            break;
+            case "ButtonImagen":
+                RadioButton ArrayRespRadioButtonImagen[]= { ((RadioButton)findViewById(R.id.RbtnRespImagen1)),
+                                                            ((RadioButton)findViewById(R.id.RbtnRespImagen2)),
+                                                            ((RadioButton)findViewById(R.id.RbtnRespImagen3)),
+                                                            ((RadioButton)findViewById(R.id.RbtnRespImagen4))};
+                for (int i=0;i<4;i++){
+                    if(ArrayRespRadioButtonImagen[i].isChecked()){
+                        if(ArrayRespRadioButtonImagen[i].getText().equals(preguntas.get(0).solucion)){
+                            valorResuesta=suma_Acierto;
+                        }
+                        i=4;
+                    }
+                }
+            break;
+        }
+        //findViewById(R.id.Layout_AciertoFallo).setVisibility(View.VISIBLE);
+        if(valorResuesta==suma_Acierto){
+            Aciertos+=1;
+            ((TextView) findViewById(R.id.Txt_RespuestaAcierto)).setText("ACIERTO");
+            //((TextView) findViewById(R.id.Txt_RespuestaAcierto)).setBackgroundResource(R.drawable.panel_acierto);
+        }else{
+            Fallos+=1;
+            ((TextView) findViewById(R.id.Txt_RespuestaAcierto)).setText("FALLO");
+            //((TextView) findViewById(R.id.Txt_RespuestaAcierto)).setBackgroundResource(R.drawable.panel_fallo);
+        }
+
+        //((TextView) findViewById(R.id.Txt_Explicacion)).setText(preguntas.get(0).explicacion);
+        ((TextView) findViewById(R.id.TXT_AcieFall)).setText("A:"+ Aciertos +"/F:"+ Fallos);
+
+        Puntuacion=Math.max(Puntuacion+valorResuesta,0);
+        ((TextView) findViewById(R.id.TxtPuntuacion)).setText("Puntuación: "+Puntuacion);
+
+        if(preguntas.size()>1){
+            preguntas.remove(0);
             mostarPregunta();
             deshabilitarCambiosLayout((LinearLayout) findViewById(R.id.LayoutMultipleRespuesta),true);
             deshabilitarCambiosLayout((LinearLayout) findViewById(R.id.LayoutRespuestaButtonImagen),true);
@@ -203,120 +298,14 @@ public class QuestionManager extends AppCompatActivity implements View.OnClickLi
             TipoPreguntaActual=preguntas.get(0).tipo;
             n_pregunta++;
             ((TextView)findViewById(R.id.TxtPreguntasContestadas)).setText(n_pregunta+"/"+n_preguntas_test);
-        }
-        else{
-            if(Estado_validar==0) {
-                deshabilitarCambiosLayout((LinearLayout) findViewById(R.id.LayoutMultipleRespuesta),false);
-                deshabilitarCambiosLayout((LinearLayout) findViewById(R.id.LayoutRespuestaButtonImagen),true);
-                deshabilitarCambiosRadioGroup((RadioGroup) findViewById(R.id.Rgbtn_button),false);
-                deshabilitarCambiosLayout((LinearLayout) findViewById(R.id.LayoutSwitch),false);
-
-
-                switch (preguntas.get(0).tipo){
-                    case "Button":
-                    case "Imagen":
-                        RadioButton ArrayRespRadioButton[]= { ((RadioButton)findViewById(R.id.RbtnResp1)),
-                                ((RadioButton)findViewById(R.id.RbtnResp2)),
-                                ((RadioButton)findViewById(R.id.RbtnResp3)),
-                                ((RadioButton)findViewById(R.id.RbtnResp4))};
-                        for (int i=0;i<4;i++){
-                            if(ArrayRespRadioButton[i].isChecked()){
-                                if(ArrayRespRadioButton[i].getText().equals(preguntas.get(0).solucion)){
-                                    valorResuesta=suma_Acierto;
-                                }
-                                i=4;
-                            }
-                        }
-                    break;
-                    case "Seekbar":
-                        //calcular puntos
-                        if(Integer.parseInt(((TextView) findViewById(R.id.TxtskbValorSeleccionado)).getText().toString())==Integer.parseInt((preguntas.get(0).solucion))){
-                            valorResuesta=suma_Acierto;
-                        }
-                        //Corregir
-                        /*if(valorResuesta==suma_Fallo){
-                            ((SeekBar)  findViewById(R.id.Skb_BarraRespuestas)).setProgress(Integer.parseInt((Preguntas.get(0)[Preguntas.get(0).length-1]))-Integer.parseInt((Preguntas.get(0)[2])));
-                            int resultadoa=Integer.parseInt((Preguntas.get(0)[Preguntas.get(0).length-1]))-Integer.parseInt((Preguntas.get(0)[2]));
-                            ((TextView)findViewById(R.id.TxtskbValorSeleccionado)).setText("" +Preguntas.get(0)[Preguntas.get(0).length-1]);
-                        }else{
-
-                        }*/
-                    break;
-                    case "Multiple":
-                        CheckBox ArrayRespCheckBox[]={((CheckBox)findViewById(R.id.ChkB_Resp1)),
-                                                        ((CheckBox)findViewById(R.id.ChkB_Resp2)),
-                                                        ((CheckBox)findViewById(R.id.ChkB_Resp3)),
-                                                        ((CheckBox)findViewById(R.id.ChkB_Resp4)),
-                                                        ((CheckBox)findViewById(R.id.ChkB_Resp5)),
-                                                        ((CheckBox)findViewById(R.id.ChkB_Resp6))};
-                        int N_respuestas=countChar(preguntas.get(0).solucion,'|');
-                        int cont_respCorrrectas=0;
-                        for (int i=0;i<preguntas.get(0).respuestas.size();i++){
-                            if(ArrayRespCheckBox[i].isChecked()){
-                                if(preguntas.get(0).solucion.contains(ArrayRespCheckBox[i].getText())){
-                                    cont_respCorrrectas+=1;
-                                }else {
-                                    cont_respCorrrectas=0;
-                                    i=preguntas.get(0).respuestas.size();
-                                }
-                            }
-                        }
-                        if(cont_respCorrrectas==N_respuestas){
-                            valorResuesta=suma_Acierto;
-                        }
-                    break;
-                    case "Switch":
-                        if (((Switch)findViewById(R.id.Switch)).isChecked()==Boolean.parseBoolean(preguntas.get(0).solucion)){
-                            valorResuesta=suma_Acierto;
-                        }
-                    break;
-                    case "ButtonImagen":
-                        RadioButton ArrayRespRadioButtonImagen[]= { ((RadioButton)findViewById(R.id.RbtnRespImagen1)),
-                                                                    ((RadioButton)findViewById(R.id.RbtnRespImagen2)),
-                                                                    ((RadioButton)findViewById(R.id.RbtnRespImagen3)),
-                                                                    ((RadioButton)findViewById(R.id.RbtnRespImagen4))};
-                        for (int i=0;i<4;i++){
-                            if(ArrayRespRadioButtonImagen[i].isChecked()){
-                                if(ArrayRespRadioButtonImagen[i].getText().equals(preguntas.get(0).solucion)){
-                                    valorResuesta=suma_Acierto;
-                                }
-                                i=4;
-                            }
-                        }
-                    break;
-                }
-                findViewById(R.id.Layout_AciertoFallo).setVisibility(View.VISIBLE);
-                if(valorResuesta==suma_Acierto){
-                    Aciertos+=1;
-                    ((TextView) findViewById(R.id.Txt_RespuestaAcierto)).setText("ACIERTO");
-                    ((TextView) findViewById(R.id.Txt_RespuestaAcierto)).setBackgroundResource(R.drawable.panel_acierto);
-                }else{
-                    Fallos+=1;
-                    ((TextView) findViewById(R.id.Txt_RespuestaAcierto)).setText("FALLO");
-                    ((TextView) findViewById(R.id.Txt_RespuestaAcierto)).setBackgroundResource(R.drawable.panel_fallo);
-                }
-
-                ((TextView) findViewById(R.id.Txt_Explicacion)).setText(preguntas.get(0).explicacion);
-                ((TextView) findViewById(R.id.TXT_AcieFall)).setText("A:"+ Aciertos +"/F:"+ Fallos);
-
-                Puntuacion=Math.max(Puntuacion+valorResuesta,0);
-                ((TextView) findViewById(R.id.TxtPuntuacion)).setText("Puntuación: "+Puntuacion);
-
-                preguntas.remove(0);
-                if(preguntas.size()>0){
-                    ((TextView) findViewById(R.id.BtnValidar_SigPregunta)).setText("Siguiente Pregunta");
-                    Estado_validar = 1;
-                }else{
-                    ((TextView) findViewById(R.id.BtnValidar_SigPregunta)).setText("Finalizar");
-                    Estado_validar=2;
-                }
-            }else{
-                //Intent intent;
-                //intent = new Intent(this, Resultados.class);
-                intent.putExtra("puntuacion", Puntuacion);
-                intent.putExtra("num_preguntas", n_preguntas_test);
-                startActivity(intent);
+            if(preguntas.size()==1){
+                ((TextView) findViewById(R.id.BtnValidar_SigPregunta)).setText("Finalizar");
             }
+        }else{
+            preguntas.remove(0);
+            intent.putExtra("puntuacion", Puntuacion);
+            intent.putExtra("num_preguntas", n_preguntas_test);
+            startActivity(intent);
         }
     }
 

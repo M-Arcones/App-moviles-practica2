@@ -22,6 +22,10 @@ class DbContract {
             "CREATE TABLE "+ DbContract.DbEntry.TABLE_IMAGENES + " (" +
                     DbContract.DbEntry.COLUMN_ID_IMAGEN + " INTEGER," +
                     DbContract.DbEntry.COLUMN_IMAGEN + " TEXT);";
+    static final String SQL_CREATE_CLADIFICACION =
+            "CREATE TABLE "+ DbContract.DbEntry.TABLE_CLASIFICACION + " (" +
+                    DbContract.DbEntry.COLUMN_PUNTUACION + " INTEGER," +
+                    DbContract.DbEntry.COLUMN_JUGADOR + " TEXT);";
 
     static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + DbContract.DbEntry.TABLE_PREGUNTAS + ";" +
@@ -47,5 +51,8 @@ class DbContract {
         static final String COLUMN_RESPUESTA = "Respuesta";
         static final String TABLE_IMAGENES = "Imagenes";
         static final String COLUMN_IMAGEN = "Imagen";
+        static final String TABLE_CLASIFICACION = "Clasificacion";
+        static final String COLUMN_PUNTUACION = "Puntuacion";
+        static final String COLUMN_JUGADOR = "Jugador";
     }
 }
