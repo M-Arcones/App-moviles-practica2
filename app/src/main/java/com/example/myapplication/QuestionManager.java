@@ -9,6 +9,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -55,6 +56,7 @@ public class QuestionManager extends AppCompatActivity implements View.OnClickLi
     Button btn_validar;
     Date date;
     Random rnd;
+    Intent intent;
 
     private DbManager dbManager;
     Cursor c_preguntas;
@@ -79,6 +81,7 @@ public class QuestionManager extends AppCompatActivity implements View.OnClickLi
 
         Cargar_preguntas();
 
+        intent = new Intent(this, Resultados.class);
         Bundle b=this.getIntent().getExtras();
         n_preguntas_test=b.getInt("n_preguntas");
         n_preguntas_totales = todasPreguntas.size();
@@ -167,6 +170,22 @@ public class QuestionManager extends AppCompatActivity implements View.OnClickLi
                 ((RadioButton) findViewById(R.id.RbtnRespImagen4)).setChecked(true);
             }
         });
+        /*Cuenta atras*/
+        new CountDownTimer(10000*n_preguntas_test, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+                ((TextView) findViewById(R.id.Txt_CuentaAtras)).setText(" " + millisUntilFinished / 1000);
+                //here you can have your logic to set text to edittext
+            }
+
+            public void onFinish() {
+                intent.putExtra("puntuacion", 0);
+                intent.putExtra("num_preguntas", n_preguntas_test);
+                startActivity(intent);
+            }
+
+        }.start();
+
     }
 
     public void onClick(View v) {
@@ -292,8 +311,8 @@ public class QuestionManager extends AppCompatActivity implements View.OnClickLi
                     Estado_validar=2;
                 }
             }else{
-                Intent intent;
-                intent = new Intent(this, Resultados.class);
+                //Intent intent;
+                //intent = new Intent(this, Resultados.class);
                 intent.putExtra("puntuacion", Puntuacion);
                 intent.putExtra("num_preguntas", n_preguntas_test);
                 startActivity(intent);
