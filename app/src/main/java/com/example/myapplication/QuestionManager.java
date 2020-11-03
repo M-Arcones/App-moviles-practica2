@@ -44,6 +44,8 @@ public class QuestionManager extends AppCompatActivity implements View.OnClickLi
     int suma_Acierto=100;
     int suma_Fallo=-50;
     int Puntuacion=0;
+    int Aciertos=0;
+    int Fallos=0;
     int n_preguntas_totales;
     int n_preguntas_test;
     String TipoPreguntaActual;
@@ -266,13 +268,17 @@ public class QuestionManager extends AppCompatActivity implements View.OnClickLi
                 }
                 findViewById(R.id.Layout_AciertoFallo).setVisibility(View.VISIBLE);
                 if(valorResuesta==suma_Acierto){
+                    Aciertos+=1;
                     ((TextView) findViewById(R.id.Txt_RespuestaAcierto)).setText("ACIERTO");
                     ((TextView) findViewById(R.id.Txt_RespuestaAcierto)).setBackgroundResource(R.drawable.panel_acierto);
                 }else{
+                    Fallos+=1;
                     ((TextView) findViewById(R.id.Txt_RespuestaAcierto)).setText("FALLO");
                     ((TextView) findViewById(R.id.Txt_RespuestaAcierto)).setBackgroundResource(R.drawable.panel_fallo);
                 }
+
                 ((TextView) findViewById(R.id.Txt_Explicacion)).setText(preguntas.get(0).explicacion);
+                ((TextView) findViewById(R.id.TXT_AcieFall)).setText("A:"+ Aciertos +"/F:"+ Fallos);
 
                 Puntuacion=Math.max(Puntuacion+valorResuesta,0);
                 ((TextView) findViewById(R.id.TxtPuntuacion)).setText("Puntuación: "+Puntuacion);
