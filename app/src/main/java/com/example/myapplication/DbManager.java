@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.util.Date;
 
 public class DbManager {
 
@@ -49,6 +50,29 @@ public class DbManager {
         return db.query(DbContract.DbEntry.TABLE_IMAGENES, columns, where, null,
                 null, null, null);
     }
+
+    public Cursor getJugadores () {
+        String[] columns = new String[]{
+                DbContract.DbEntry.COLUMN_NOMJUGADOR};
+        return db.query(DbContract.DbEntry.TABLE_JUGADORES, columns, null, null,
+                null, null, null);
+    }
+
+    public void insertJugador(String playerName){
+        this.db.insert(DbContract.DbEntry.TABLE_JUGADORES, null,
+                this.generateContentValues(playerName));
+    }
+
+    private ContentValues generateContentValues(String playerName){
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(DbContract.DbEntry.COLUMN_NOMJUGADOR, playerName);
+        return contentValues;
+    }
+
+    public void insertPuntuacion(String playerName, int Puntuacion, String Fecha){
+        this.db.execSQL("INSERT INTO Clasificacion (Puntuacion,FechaPartida,Nombre_Jugador) VALUES ("+Puntuacion +",'"+playerName+"','"+ Fecha+"')");
+    }
+
     public void deleteAll() {
         this.db.delete(DbContract.DbEntry.TABLE_PREGUNTAS, null,null);
     }

@@ -4,8 +4,11 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import static com.example.myapplication.DbContract.SQL_CREATE_PUNTUACIONES;
 import static com.example.myapplication.DbContract.SQL_CREATE_IMAGEN;
+import static com.example.myapplication.DbContract.SQL_CREATE_JUGADORES;
 import static com.example.myapplication.DbContract.SQL_CREATE_PREGUNTA;
+import static com.example.myapplication.DbContract.SQL_CREATE_PUNTUACIONES;
 import static com.example.myapplication.DbContract.SQL_CREATE_RESPUESTA;
 import static com.example.myapplication.DbContract.SQL_DELETE_ENTRIES;
 import androidx.annotation.Nullable;
@@ -29,6 +32,8 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL(SQL_CREATE_PREGUNTA);
         db.execSQL(SQL_CREATE_RESPUESTA);
         db.execSQL(SQL_CREATE_IMAGEN);
+        db.execSQL(SQL_CREATE_PUNTUACIONES);
+        db.execSQL(SQL_CREATE_JUGADORES);
         //db.execSQL("INSERT INTO Preguntas VALUES ('ID', 'COLUMN_TIPO', 'COLUMN_ASK', 'COLUMN_ID_RESPUESTA','COLUMN_EXPLICACION','COLUMN_SOLUCION','COLUMN_MIN','COLUMN_MAX','COLUMN_ID_IMAGEN')");
         db.execSQL("INSERT INTO Preguntas VALUES (1, 'Button', '¿Quién fue el jugador que marcó en la final del mundial de 2010?', 1,'Iniesta marcó en la prórroga el gol decisivo que dio el título a España en una disputadísima final contra Holanda (0-1)','Andrés Iniesta',NULL,NULL,NULL)");
         db.execSQL("INSERT INTO Preguntas VALUES (2, 'Seekbar', '¿Cuál es el máximo número de goles que se han marcado en un partido?', NULL,'El 31 de Octubre de 2002  ek AS Adema ganó al SO I Emyrne 149-0','149',10,200,NULL)");
@@ -64,6 +69,9 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL("INSERT INTO Imagenes VALUES (2, 'imagen_saque_esquina')");
         db.execSQL("INSERT INTO Imagenes VALUES (2, 'imagen_tiro_penalti')");
         db.execSQL("INSERT INTO Imagenes VALUES (2, 'imagen_falta')");
+
+        //db.execSQL("INSERT INTO Jugadores VALUES ('ID_IMAGEN', 'IMAGEN')");
+        db.execSQL("INSERT INTO Jugadores VALUES ('Anonimo',NULL)");
     }
 
     @Override

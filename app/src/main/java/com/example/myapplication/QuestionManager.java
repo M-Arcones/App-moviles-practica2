@@ -49,8 +49,7 @@ public class QuestionManager extends AppCompatActivity implements View.OnClickLi
     int Fallos=0;
     int n_preguntas_totales;
     int n_preguntas_test;
-    String TipoPreguntaActual;
-    String Respuesta;
+    String TipoPreguntaActual, usuario_seleccionado, Respuesta;
     int n_pregunta=1;
     Animation scaleUp, scaleDown;
     Button btn_validar;
@@ -85,6 +84,7 @@ public class QuestionManager extends AppCompatActivity implements View.OnClickLi
         Bundle b=this.getIntent().getExtras();
         n_preguntas_test=b.getInt("n_preguntas");
         n_preguntas_totales = todasPreguntas.size();
+        usuario_seleccionado=b.getString("nom_jugador");
 
 
         ((TextView)findViewById(R.id.TxtPreguntasContestadas)).setText(n_pregunta+"/"+n_preguntas_test);
@@ -181,6 +181,7 @@ public class QuestionManager extends AppCompatActivity implements View.OnClickLi
             public void onFinish() {
                 intent.putExtra("puntuacion", 0);
                 intent.putExtra("num_preguntas", n_preguntas_test);
+                intent.putExtra("nom_jugador", usuario_seleccionado);
                 startActivity(intent);
             }
 
@@ -303,8 +304,9 @@ public class QuestionManager extends AppCompatActivity implements View.OnClickLi
             }
         }else{
             preguntas.remove(0);
-            intent.putExtra("puntuacion", Puntuacion);
+            intent.putExtra("puntuacion", Puntuacion+  Integer.parseInt(((TextView) findViewById(R.id.Txt_CuentaAtras)).getText().toString()));
             intent.putExtra("num_preguntas", n_preguntas_test);
+            intent.putExtra("nom_jugador", usuario_seleccionado);
             startActivity(intent);
         }
     }
