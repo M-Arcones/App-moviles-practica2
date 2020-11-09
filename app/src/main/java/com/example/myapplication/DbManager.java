@@ -70,8 +70,24 @@ public class DbManager {
     }
 
     public void insertPuntuacion(String playerName, int Puntuacion, String Fecha){
-        this.db.execSQL("INSERT INTO Clasificacion (Puntuacion,FechaPartida,Nombre_Jugador) VALUES ("+Puntuacion +",'"+playerName+"','"+ Fecha+"')");
+        this.db.execSQL("INSERT INTO Clasificacion (Puntuacion, Nombre_Jugador, FechaPartida) VALUES ("+Puntuacion +",'"+playerName+"','"+ Fecha+"')");
     }
+
+    public int getN_Clasificacion () {
+        String countQuery = "SELECT  * FROM " + DbContract.DbEntry.TABLE_PUNTUACION + " WHERE "+ DbContract.DbEntry.COLUMN_PUNTUACION + "> 0";
+        Cursor cursor = db.rawQuery(countQuery, null);
+        int count = cursor.getCount();
+        cursor.close();
+        return count;
+    }
+
+    public Cursor get5Mejores_Clasificacion() {
+        String Columnas=  DbContract.DbEntry.COLUMN_PUNTUACION + " ,"+ DbContract.DbEntry.COLUMN_NOMJUGADOR;
+        String Top5Query = "SELECT " + Columnas + " FROM " + DbContract.DbEntry.TABLE_PUNTUACION + " WHERE "+ DbContract.DbEntry.COLUMN_PUNTUACION + "> 0  ORDER BY "+ DbContract.DbEntry.COLUMN_PUNTUACION + " DESC LIMIT 5";
+        Cursor cursor = db.rawQuery(Top5Query, null);
+        return cursor;
+    }
+
 
     public void deleteAll() {
         this.db.delete(DbContract.DbEntry.TABLE_PREGUNTAS, null,null);

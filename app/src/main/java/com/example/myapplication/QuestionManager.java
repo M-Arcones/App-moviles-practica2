@@ -65,6 +65,8 @@ public class QuestionManager extends AppCompatActivity implements View.OnClickLi
     ArrayList<Pregunta> todasPreguntas = new ArrayList<>();
     ArrayList<Pregunta> preguntas = new ArrayList<>();
 
+    CountDownTimer CuentaAtras;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -171,7 +173,7 @@ public class QuestionManager extends AppCompatActivity implements View.OnClickLi
             }
         });
         /*Cuenta atras*/
-        new CountDownTimer(10000*n_preguntas_test, 1000) {
+        CuentaAtras= new CountDownTimer(10000*n_preguntas_test, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 ((TextView) findViewById(R.id.Txt_CuentaAtras)).setText(" " + millisUntilFinished / 1000);
@@ -304,9 +306,10 @@ public class QuestionManager extends AppCompatActivity implements View.OnClickLi
             }
         }else{
             preguntas.remove(0);
-            intent.putExtra("puntuacion", Puntuacion+  Integer.parseInt(((TextView) findViewById(R.id.Txt_CuentaAtras)).getText().toString()));
+            intent.putExtra("puntuacion", Puntuacion+  Integer.parseInt(((TextView) findViewById(R.id.Txt_CuentaAtras)).getText().toString().replaceAll("\\s+","")));
             intent.putExtra("num_preguntas", n_preguntas_test);
             intent.putExtra("nom_jugador", usuario_seleccionado);
+            CuentaAtras.cancel();
             startActivity(intent);
         }
     }

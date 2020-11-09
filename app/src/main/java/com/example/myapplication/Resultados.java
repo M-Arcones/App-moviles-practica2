@@ -3,6 +3,7 @@ package com.example.myapplication;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
@@ -16,13 +17,14 @@ import java.util.Date;
 
 public class Resultados extends AppCompatActivity implements View.OnClickListener{
 
-    private Button buttonPlayAgain;
+    private Button buttonPlayAgain, ButtonVolver;
     private TextView textScore;
     private Animation scaleUp,scaleDown;
 
     private DbManager dbManager;
     private int num_preguntas;
     private String usuario_seleccionado;
+    //Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,32 +39,67 @@ public class Resultados extends AppCompatActivity implements View.OnClickListene
         textScore.setText("Puntuacion Final \n \n" + puntuacion +" pts");
 
         buttonPlayAgain=findViewById(R.id.Button_VolverAJugar);
+        ButtonVolver=findViewById(R.id.Btn_Volver_);
 
         scaleUp= AnimationUtils.loadAnimation(this, R.anim.scale_up);
         scaleDown= AnimationUtils.loadAnimation(this, R.anim.scale_down);
 
         buttonPlayAgain.setOnClickListener(this);
+        ButtonVolver.setOnClickListener(this);
 
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
         Date date = new Date();
 
         this.dbManager = new DbManager(this);
-        dbManager.insertPuntuacion(usuario_seleccionado,puntuacion,dateFormat.format(date));
+
+        Cursor c_top5;
+        c_top5=dbManager.get5Mejores_Clasificacion();
+        c_top5.moveToLast();
+        Intent intent;
+        intent = new Intent(this, Clasificacion.class);
+
 
         if(puntuacion>0){
-            //Numero de preguntas Maximas puntuaciones, si es mayor que 5 ir a clasificacion, si no ver la 5 posicion,si es mayor ir a Clasificacion
-
+            int a=dbManager.getN_Clasificacion();
+            if(dbManager.getN_Clasificacion()<=5){
+                c_top5.close();
+                dbManager.insertPuntuacion(usuario_seleccionado,puntuacion,dateFormat.format(date));
+                intent.putExtra("n_preguntas", num_preguntas);
+                intent.putExtra("nom_jugador", usuario_seleccionado);
+                startActivity(intent);
+            }else{
+                if(c_top5.getInt(c_top5.getColumnIndex(DbContract.DbEntry.COLUMN_PUNTUACION))<puntuacion){
+                    dbManager.insertPuntuacion(usuario_seleccionado,puntuacion,dateFormat.format(date));
+                    c_top5.close();
+                    intent.putExtra("n_preguntas", num_preguntas);
+                    intent.putExtra("nom_jugador", usuario_seleccionado);
+                    startActivity(intent);
+                }
+            }
         }
     }
 
     @Override
     public void onClick(View v) {
-        buttonPlayAgain.startAnimation(scaleDown);
-        buttonPlayAgain.startAnimation(scaleUp);
-
         Intent intent;
-        intent = new Intent(this, QuestionManager.class);
-        intent.putExtra("n_preguntas", num_preguntas);
-        startActivity(intent);
+
+        switch (v.getId()) {
+            case (R.id.Button_VolverAJugar):
+                buttonPlayAgain.startAnimation(scaleDown);
+                buttonPlayAgain.startAnimation(scaleUp);
+                intent = new Intent(this, QuestionManager.class);
+                intent.putExtra("n_preguntas", num_preguntas);
+                intent.putExtra("nom_jugador", usuario_seleccionado);
+                startActivity(intent);
+            break;
+            case(R.id.Btn_Volver_):
+                ButtonVolver.startAnimation(scaleDown);
+                ButtonVolver.startAnimation(scaleUp);
+                intent = new Intent(this, MainActivity.class);
+                intent.putExtra("n_preguntas", num_preguntas);
+                intent.putExtra("nom_jugador", usuario_seleccionado);
+                startActivity(intent);
+            break;
+        }
     }
 }

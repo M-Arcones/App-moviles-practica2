@@ -42,4 +42,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Text_Puntuacion"
         app:layout_constraintVertical_bias="0.519" />
+
+    <Button
+        android:id="@+id/Btn_Volver_"
+        android:layout_width="140dp"
+        android:layout_height="58dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/button"
+        android:text="Volver"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Button_VolverAJugar" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -47,6 +47,7 @@
             android:layout_height="37dp"
             android:layout_marginTop="52dp"
             android:text="¿Desea jugar como anónimo o quiza seleccionar o crear un usuario?"
+            android:textAlignment="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -93,6 +94,25 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Btn_jugar" />
+
+    <Button
+        android:id="@+id/Btn_Clasificacion"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_width="233dp"
+        android:layout_height="51dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/button"
+        android:filterTouchesWhenObscured="false"
+        android:fontFamily="@font/cherry_cream_soda"
+        android:onClick="onClick"
+        android:text="Clasificacion"
+        android:textColor="#000000"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Btn_ajustes" />
 
     <TextView
         android:id="@+id/Text_title"
