@@ -3,7 +3,7 @@ package com.example.myapplication;
 import java.util.ArrayList;
 
 public class Pregunta {
-    String tipo, pregunta, solucion, explicacion;
+    String tipo, pregunta, solucion, explicacion, sonido;
     ArrayList<String> respuestas = new ArrayList<>();
     ArrayList<String> imagenes = new ArrayList<>();
     int min, max;

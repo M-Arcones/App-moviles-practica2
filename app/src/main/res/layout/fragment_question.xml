@@ -41,12 +41,41 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/Layout_Sonido"
+            android:layout_width="187dp"
+            android:layout_height="108dp"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/Layout_ImagenPregunta"
+            tools:visibility="visible">
+
+            <Button
+                android:id="@+id/Btn_PlaySound"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Play" />
+
+            <Button
+                android:id="@+id/Btn_PauseSound"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Pause" />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/Layout_ImagenPregunta"
             android:layout_width="394dp"
             android:layout_height="130dp"
+            android:layout_marginTop="10dp"
             android:layout_weight="1"
             android:orientation="horizontal"
-            android:visibility="visible"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -66,13 +95,13 @@
             android:id="@+id/LayaoutRespuestas"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="80dp"
+            android:layout_marginTop="50dp"
             android:orientation="vertical"
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/Layout_ImagenPregunta"
+            app:layout_constraintTop_toBottomOf="@+id/Layout_Sonido"
             tools:visibility="visible">
 
             <LinearLayout
@@ -145,11 +174,11 @@
                 android:id="@+id/LayoutSwitch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@drawable/panel_respuesta"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:visibility="visible"
-                android:background="@drawable/panel_respuesta"
-                tools:visibility="visible">
+                tools:visibility="gone">
 
                 <TextView
                     android:id="@+id/TxtFalse"
@@ -323,7 +352,7 @@
                 android:layout_marginTop="20dp"
                 android:orientation="vertical"
                 android:visibility="visible"
-                tools:visibility="gone">
+                tools:visibility="visible">
 
                 <RadioGroup
                     android:id="@+id/Rgbtn_button"

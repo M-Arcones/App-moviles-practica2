@@ -8,6 +8,8 @@ import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -52,10 +54,11 @@ public class QuestionManager extends AppCompatActivity implements View.OnClickLi
     String TipoPreguntaActual, usuario_seleccionado, Respuesta;
     int n_pregunta=1;
     Animation scaleUp, scaleDown;
-    Button btn_validar;
+    Button btn_validar, btn_PlaySound, btn_PauseSound;
     Date date;
     Random rnd;
     Intent intent;
+    MediaPlayer mediaPlayer = new MediaPlayer();
 
     private DbManager dbManager;
     Cursor c_preguntas;
@@ -75,6 +78,8 @@ public class QuestionManager extends AppCompatActivity implements View.OnClickLi
         scaleUp= AnimationUtils.loadAnimation(this, R.anim.scale_up);
         scaleDown= AnimationUtils.loadAnimation(this, R.anim.scale_down);
         btn_validar=findViewById(R.id.BtnValidar_SigPregunta);
+        btn_PlaySound=findViewById(R.id.Btn_PlaySound);
+        btn_PauseSound=findViewById(R.id.Btn_PauseSound);
 
         date = new Date();
         rnd = new Random();
@@ -186,8 +191,19 @@ public class QuestionManager extends AppCompatActivity implements View.OnClickLi
                 intent.putExtra("nom_jugador", usuario_seleccionado);
                 startActivity(intent);
             }
-
         }.start();
+
+
+        btn_PlaySound.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {mediaPlayer.start();}
+        });
+        btn_PauseSound.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {mediaPlayer.pause();}
+        });
+
+
 
     }
 
@@ -202,8 +218,12 @@ public class QuestionManager extends AppCompatActivity implements View.OnClickLi
         deshabilitarCambiosLayout((LinearLayout) findViewById(R.id.LayoutSwitch),false);
 
         switch (preguntas.get(0).tipo){
+            case "Sonido":
             case "Button":
             case "Imagen":
+                if(mediaPlayer.isPlaying()){
+                    mediaPlayer.stop();
+                }
                 RadioButton ArrayRespRadioButton[]= { ((RadioButton)findViewById(R.id.RbtnResp1)),
                         ((RadioButton)findViewById(R.id.RbtnResp2)),
                         ((RadioButton)findViewById(R.id.RbtnResp3)),
@@ -318,7 +338,7 @@ public class QuestionManager extends AppCompatActivity implements View.OnClickLi
     public void mostarPregunta(){
 
         int n_respuestas = preguntas.get(0).respuestas.size();
-        int imagenID;
+        int imagenID, SonidoID;
 
         ((TextView) findViewById(R.id.TxtPregunta)).setText(preguntas.get(0).pregunta);
 
@@ -331,6 +351,7 @@ public class QuestionManager extends AppCompatActivity implements View.OnClickLi
         findViewById(R.id.Layout_ImagenPregunta).setVisibility(View.GONE);
         findViewById(R.id.LayoutRespuestaButtonImagen).setVisibility(View.GONE);
         findViewById(R.id.Layout_AciertoFallo).setVisibility(View.GONE);
+        findViewById(R.id.Layout_Sonido).setVisibility(View.GONE);
         switch (preguntas.get(0).tipo){
             case "Button":
                 ((RadioGroup) findViewById(R.id.Rgbtn_button)).clearCheck();
@@ -409,6 +430,44 @@ public class QuestionManager extends AppCompatActivity implements View.OnClickLi
 
                 imagenID = this.getResources().getIdentifier(preguntas.get(0).imagenes.get(0), "raw", this.getPackageName());
                 ((ImageView)findViewById(R.id.Img_pregunta)).setImageResource(imagenID);
+                for(int i=0;i<n_respuestas;i++){
+                    PosicionesDisponiblesRespuesta.add(i);
+                }
+                for(int i=0;i<n_respuestas;i++){
+                    int randomNum = rnd.nextInt((PosicionesDisponiblesRespuesta.size()));
+                    switch (i){
+                        case 0:
+                            ((TextView) findViewById(R.id.RbtnResp1)).setText(preguntas.get(0).respuestas.get(PosicionesDisponiblesRespuesta.get(randomNum)));
+                            break;
+                        case 1:
+                            ((TextView) findViewById(R.id.RbtnResp2)).setText(preguntas.get(0).respuestas.get(PosicionesDisponiblesRespuesta.get(randomNum)));
+                            break;
+                        case 2:
+                            ((TextView) findViewById(R.id.RbtnResp3)).setText(preguntas.get(0).respuestas.get(PosicionesDisponiblesRespuesta.get(randomNum)));
+                            break;
+                        case 3:
+                            ((TextView) findViewById(R.id.RbtnResp4)).setText(preguntas.get(0).respuestas.get(PosicionesDisponiblesRespuesta.get(randomNum)));
+                            break;
+                    }
+                    PosicionesDisponiblesRespuesta.remove(randomNum);
+                }
+            break;
+            case "Sonido":
+                ((RadioGroup) findViewById(R.id.Rgbtn_button)).clearCheck();
+                findViewById(R.id.LayoutRespuestaButton).setVisibility(View.VISIBLE);
+                findViewById(R.id.Layout_Sonido).setVisibility(View.VISIBLE);
+
+                try {
+                    SonidoID = this.getResources().getIdentifier(preguntas.get(0).sonido, "raw", this.getPackageName());
+                    mediaPlayer.setDataSource(this, Uri.parse("android.resource://" +getPackageName()+ "/" +SonidoID));
+                    mediaPlayer.setVolume(20,20);
+                    mediaPlayer.prepare();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                //imagenID = this.getResources().getIdentifier(preguntas.get(0).imagenes.get(0), "raw", this.getPackageName());
+                //((ImageView)findViewById(R.id.Img_pregunta)).setImageResource(imagenID);
                 for(int i=0;i<n_respuestas;i++){
                     PosicionesDisponiblesRespuesta.add(i);
                 }
@@ -526,8 +585,12 @@ public class QuestionManager extends AppCompatActivity implements View.OnClickLi
                 case "ButtonImagen":
                     preguntaActual = new Pregunta("ButtonImagen");
                     break;
+                case "Sonido":
+                    preguntaActual = new Pregunta("Sonido");
+                    break;
             }
             preguntaActual.pregunta = c_preguntas.getString(c_preguntas.getColumnIndex(DbContract.DbEntry.COLUMN_ASK));
+            preguntaActual.sonido = c_preguntas.getString(c_preguntas.getColumnIndex(DbContract.DbEntry.COLUMN_SONIDO));
             preguntaActual.explicacion = c_preguntas.getString(c_preguntas.getColumnIndex(DbContract.DbEntry.COLUMN_EXPLICACION));
             preguntaActual.solucion = c_preguntas.getString(c_preguntas.getColumnIndex(DbContract.DbEntry.COLUMN_SOLUCION));
             preguntaActual.min = c_preguntas.getInt(c_preguntas.getColumnIndex(DbContract.DbEntry.COLUMN_MIN));
