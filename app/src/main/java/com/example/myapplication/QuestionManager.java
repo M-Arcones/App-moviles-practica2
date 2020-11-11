@@ -19,11 +19,13 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.MediaController;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -59,6 +61,7 @@ public class QuestionManager extends AppCompatActivity implements View.OnClickLi
     Random rnd;
     Intent intent;
     MediaPlayer mediaPlayer = new MediaPlayer();
+    VideoView videoView;
 
     private DbManager dbManager;
     Cursor c_preguntas;
@@ -80,6 +83,8 @@ public class QuestionManager extends AppCompatActivity implements View.OnClickLi
         btn_validar=findViewById(R.id.BtnValidar_SigPregunta);
         btn_PlaySound=findViewById(R.id.Btn_PlaySound);
         btn_PauseSound=findViewById(R.id.Btn_PauseSound);
+        videoView=findViewById(R.id.VideoPregunta);
+        videoView.setMediaController(new MediaController(this));
 
         date = new Date();
         rnd = new Random();
@@ -193,7 +198,6 @@ public class QuestionManager extends AppCompatActivity implements View.OnClickLi
             }
         }.start();
 
-
         btn_PlaySound.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {mediaPlayer.start();}
@@ -202,8 +206,6 @@ public class QuestionManager extends AppCompatActivity implements View.OnClickLi
             @Override
             public void onClick(View v) {mediaPlayer.pause();}
         });
-
-
 
     }
 
@@ -338,7 +340,7 @@ public class QuestionManager extends AppCompatActivity implements View.OnClickLi
     public void mostarPregunta(){
 
         int n_respuestas = preguntas.get(0).respuestas.size();
-        int imagenID, SonidoID;
+        int imagenID, SonidoID, VideoId;
 
         ((TextView) findViewById(R.id.TxtPregunta)).setText(preguntas.get(0).pregunta);
 
@@ -352,6 +354,7 @@ public class QuestionManager extends AppCompatActivity implements View.OnClickLi
         findViewById(R.id.LayoutRespuestaButtonImagen).setVisibility(View.GONE);
         findViewById(R.id.Layout_AciertoFallo).setVisibility(View.GONE);
         findViewById(R.id.Layout_Sonido).setVisibility(View.GONE);
+        findViewById(R.id.LayoutVideo).setVisibility(View.GONE);
         switch (preguntas.get(0).tipo){
             case "Button":
                 ((RadioGroup) findViewById(R.id.Rgbtn_button)).clearCheck();
@@ -466,8 +469,6 @@ public class QuestionManager extends AppCompatActivity implements View.OnClickLi
                     e.printStackTrace();
                 }
 
-                //imagenID = this.getResources().getIdentifier(preguntas.get(0).imagenes.get(0), "raw", this.getPackageName());
-                //((ImageView)findViewById(R.id.Img_pregunta)).setImageResource(imagenID);
                 for(int i=0;i<n_respuestas;i++){
                     PosicionesDisponiblesRespuesta.add(i);
                 }
@@ -490,6 +491,46 @@ public class QuestionManager extends AppCompatActivity implements View.OnClickLi
                     PosicionesDisponiblesRespuesta.remove(randomNum);
                 }
             break;
+            case "Video":
+                ((RadioGroup) findViewById(R.id.Rgbtn_button)).clearCheck();
+                findViewById(R.id.LayoutRespuestaButton).setVisibility(View.VISIBLE);
+                findViewById(R.id.LayoutVideo).setVisibility(View.VISIBLE);
+
+                VideoId = this.getResources().getIdentifier(preguntas.get(0).video, "raw", this.getPackageName());
+                videoView.setVideoURI(Uri.parse("android.resource://" +getPackageName()+ "/" + VideoId));
+                videoView.requestFocus();
+
+                /*try {
+                    SonidoID = this.getResources().getIdentifier(preguntas.get(0).sonido, "raw", this.getPackageName());
+                    mediaPlayer.setDataSource(this, Uri.parse("android.resource://" +getPackageName()+ "/" +SonidoID));
+                    mediaPlayer.setVolume(20,20);
+                    mediaPlayer.prepare();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }*/
+
+                for(int i=0;i<n_respuestas;i++){
+                    PosicionesDisponiblesRespuesta.add(i);
+                }
+                for(int i=0;i<n_respuestas;i++){
+                    int randomNum = rnd.nextInt((PosicionesDisponiblesRespuesta.size()));
+                    switch (i){
+                        case 0:
+                            ((TextView) findViewById(R.id.RbtnResp1)).setText(preguntas.get(0).respuestas.get(PosicionesDisponiblesRespuesta.get(randomNum)));
+                            break;
+                        case 1:
+                            ((TextView) findViewById(R.id.RbtnResp2)).setText(preguntas.get(0).respuestas.get(PosicionesDisponiblesRespuesta.get(randomNum)));
+                            break;
+                        case 2:
+                            ((TextView) findViewById(R.id.RbtnResp3)).setText(preguntas.get(0).respuestas.get(PosicionesDisponiblesRespuesta.get(randomNum)));
+                            break;
+                        case 3:
+                            ((TextView) findViewById(R.id.RbtnResp4)).setText(preguntas.get(0).respuestas.get(PosicionesDisponiblesRespuesta.get(randomNum)));
+                            break;
+                    }
+                    PosicionesDisponiblesRespuesta.remove(randomNum);
+                }
+                break;
             case "Switch":
 
                 findViewById(R.id.LayoutSwitch).setVisibility(View.VISIBLE);
@@ -588,9 +629,13 @@ public class QuestionManager extends AppCompatActivity implements View.OnClickLi
                 case "Sonido":
                     preguntaActual = new Pregunta("Sonido");
                     break;
+                case "Video":
+                    preguntaActual = new Pregunta("Video");
+                    break;
             }
             preguntaActual.pregunta = c_preguntas.getString(c_preguntas.getColumnIndex(DbContract.DbEntry.COLUMN_ASK));
             preguntaActual.sonido = c_preguntas.getString(c_preguntas.getColumnIndex(DbContract.DbEntry.COLUMN_SONIDO));
+            preguntaActual.video = c_preguntas.getString(c_preguntas.getColumnIndex(DbContract.DbEntry.COLUMN_VIDEO));
             preguntaActual.explicacion = c_preguntas.getString(c_preguntas.getColumnIndex(DbContract.DbEntry.COLUMN_EXPLICACION));
             preguntaActual.solucion = c_preguntas.getString(c_preguntas.getColumnIndex(DbContract.DbEntry.COLUMN_SOLUCION));
             preguntaActual.min = c_preguntas.getInt(c_preguntas.getColumnIndex(DbContract.DbEntry.COLUMN_MIN));

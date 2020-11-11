@@ -31,6 +31,7 @@ public class DbManager {
                 DbContract.DbEntry.COLUMN_MIN,
                 DbContract.DbEntry.COLUMN_MAX,
                 DbContract.DbEntry.COLUMN_ID_IMAGEN,
+                DbContract.DbEntry.COLUMN_VIDEO,
                 DbContract.DbEntry.COLUMN_SONIDO};
         return db.query(DbContract.DbEntry.TABLE_PREGUNTAS, columns, null, null,
                 null, null, null);

@@ -14,7 +14,8 @@ class DbContract {
                     DbContract.DbEntry.COLUMN_MIN + " INTEGER," +
                     DbContract.DbEntry.COLUMN_MAX + " INTEGER," +
                     DbContract.DbEntry.COLUMN_ID_IMAGEN + " INTEGER," +
-                    DbContract.DbEntry.COLUMN_SONIDO + " TEXT" + ");";
+                    DbContract.DbEntry.COLUMN_SONIDO + " TEXT," +
+                    DbContract.DbEntry.COLUMN_VIDEO + " TEXT" + ");";
     static final String SQL_CREATE_RESPUESTA =
             "CREATE TABLE "+ DbContract.DbEntry.TABLE_RESPUESTAS + " (" +
                     DbContract.DbEntry.COLUMN_ID_RESPUESTA + " INTEGER," +
@@ -52,6 +53,7 @@ class DbContract {
         static final String COLUMN_EXPLICACION = "Explicacion";
         static final String COLUMN_SOLUCION = "Solucion";
         static final String COLUMN_SONIDO = "Sonido";
+        static final String COLUMN_VIDEO = "Video";
         static final String COLUMN_MIN = "Min";
         static final String COLUMN_MAX = "Max";
         static final String COLUMN_ID_IMAGEN = "Id_Imagen";

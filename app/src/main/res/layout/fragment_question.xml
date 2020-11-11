@@ -16,6 +16,24 @@
 
 
         <LinearLayout
+            android:id="@+id/LayoutVideo"
+            android:layout_width="296dp"
+            android:layout_height="205dp"
+            android:layout_marginTop="20dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/Layout_Sonido">
+
+            <VideoView
+                android:id="@+id/VideoPregunta"
+                android:layout_width="match_parent"
+                android:layout_height="201dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/LayoutPregunta"
             android:layout_width="394dp"
             android:layout_height="51dp"
@@ -80,7 +98,7 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/LayoutPregunta"
-            tools:visibility="gone">
+            tools:visibility="visible">
 
             <ImageView
                 android:id="@+id/Img_pregunta"
@@ -101,7 +119,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/Layout_Sonido"
+            app:layout_constraintTop_toBottomOf="@+id/LayoutVideo"
             tools:visibility="visible">
 
             <LinearLayout
