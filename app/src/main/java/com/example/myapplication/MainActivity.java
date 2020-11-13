@@ -14,7 +14,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button ButtonPlay, ButtonAjustes, ButtonContinuar, ButtonUsuario, ButtonClasificacion;
     private Animation scaleUp, scaleDown;
     private int num_preguntas;
-    private String usuario_seleccionado;
+    private String usuario_seleccionado, tema_seleccionado;
     //private ArrayList<Pregunta> preguntas = new ArrayList<>();
 
     @Override
@@ -24,9 +24,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(b==null){
             num_preguntas=5;
             usuario_seleccionado="Anonimo";
+            tema_seleccionado="Futbol";
         }else{
             num_preguntas=b.getInt("n_preguntas");
             usuario_seleccionado=b.getString("nom_jugador");
+            tema_seleccionado=b.getString("tema_seleccionado");
         }
         setContentView(R.layout.activity_main);
         ButtonPlay=findViewById(R.id.Btn_jugar);
@@ -47,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Bundle b=new Bundle();
         b.putInt("n_preguntas",num_preguntas);
         b.putString("nom_jugador",usuario_seleccionado);
+        b.putString("tema_seleccionado",tema_seleccionado);
         Intent intent;
         switch (v.getId()) {
             case (R.id.Btn_Clasificacion):

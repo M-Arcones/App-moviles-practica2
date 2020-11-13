@@ -23,7 +23,7 @@ public class Resultados extends AppCompatActivity implements View.OnClickListene
 
     private DbManager dbManager;
     private int num_preguntas;
-    private String usuario_seleccionado;
+    private String usuario_seleccionado, tema_seleccionado;
     //Intent intent;
 
     @Override
@@ -34,6 +34,7 @@ public class Resultados extends AppCompatActivity implements View.OnClickListene
         int puntuacion = (int) getIntent().getSerializableExtra("puntuacion");
         num_preguntas= (int) getIntent().getSerializableExtra("num_preguntas");
         usuario_seleccionado=(String) getIntent().getSerializableExtra("nom_jugador");
+        tema_seleccionado=(String) getIntent().getSerializableExtra("tema_seleccionado");
 
         textScore = findViewById(R.id.Text_Puntuacion);
         textScore.setText("Puntuacion Final \n \n" + puntuacion +" pts");
@@ -66,6 +67,7 @@ public class Resultados extends AppCompatActivity implements View.OnClickListene
                 dbManager.insertPuntuacion(usuario_seleccionado,puntuacion,dateFormat.format(date));
                 intent.putExtra("n_preguntas", num_preguntas);
                 intent.putExtra("nom_jugador", usuario_seleccionado);
+                intent.putExtra("tema_seleccionado", tema_seleccionado);
                 startActivity(intent);
             }else{
                 if(c_top5.getInt(c_top5.getColumnIndex(DbContract.DbEntry.COLUMN_PUNTUACION))<puntuacion){
@@ -73,6 +75,7 @@ public class Resultados extends AppCompatActivity implements View.OnClickListene
                     c_top5.close();
                     intent.putExtra("n_preguntas", num_preguntas);
                     intent.putExtra("nom_jugador", usuario_seleccionado);
+                    intent.putExtra("tema_seleccionado", tema_seleccionado);
                     startActivity(intent);
                 }
             }
@@ -90,6 +93,7 @@ public class Resultados extends AppCompatActivity implements View.OnClickListene
                 intent = new Intent(this, QuestionManager.class);
                 intent.putExtra("n_preguntas", num_preguntas);
                 intent.putExtra("nom_jugador", usuario_seleccionado);
+                intent.putExtra("tema_seleccionado", tema_seleccionado);
                 startActivity(intent);
             break;
             case(R.id.Btn_Volver_):
@@ -98,6 +102,7 @@ public class Resultados extends AppCompatActivity implements View.OnClickListene
                 intent = new Intent(this, MainActivity.class);
                 intent.putExtra("n_preguntas", num_preguntas);
                 intent.putExtra("nom_jugador", usuario_seleccionado);
+                intent.putExtra("tema_seleccionado", tema_seleccionado);
                 startActivity(intent);
             break;
         }

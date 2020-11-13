@@ -6,6 +6,7 @@ class DbContract {
     static final String SQL_CREATE_PREGUNTA =
             "CREATE TABLE " + DbContract.DbEntry.TABLE_PREGUNTAS + " (" +
                     DbContract.DbEntry._ID + " INTEGER PRIMARY KEY," +
+                    DbContract.DbEntry.COLUMN_TEMA + " TEXT," +
                     DbContract.DbEntry.COLUMN_TIPO + " TEXT," +
                     DbContract.DbEntry.COLUMN_ASK + " TEXT," +
                     DbContract.DbEntry.COLUMN_ID_RESPUESTA + " INTEGER," +
@@ -48,6 +49,7 @@ class DbContract {
     static class DbEntry implements BaseColumns {
         static final String TABLE_PREGUNTAS = "Preguntas";
         static final String COLUMN_TIPO = "Tipo";
+        static final String COLUMN_TEMA = "Tema";
         static final String COLUMN_ASK = "Ask";
         static final String COLUMN_ID_RESPUESTA = "Id_Respuesta";
         static final String COLUMN_EXPLICACION = "Explicacion";

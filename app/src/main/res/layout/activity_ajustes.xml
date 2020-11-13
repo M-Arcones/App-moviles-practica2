@@ -30,7 +30,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <LinearLayout
-        android:id="@+id/linearLayout"
+        android:id="@+id/Layout_NPreguntas"
         android:layout_width="255dp"
         android:layout_height="158dp"
         android:layout_marginTop="15dp"
@@ -71,15 +71,48 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/Layout_TemaPreguntas"
+        android:layout_width="255dp"
+        android:layout_height="242dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Layout_NPreguntas">
+
+        <TextView
+            android:id="@+id/TxtTemaPreguntas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Seleccion el tema de las preguntas del test:" />
+
+        <RadioGroup
+            android:id="@+id/Rgbtn_TemaPreguntas"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <RadioButton
+                android:id="@+id/Rbtn_temaFutbol"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Futbol" />
+
+            <RadioButton
+                android:id="@+id/Rbtn_temaBaloncesto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Baloncesto" />
+        </RadioGroup>
+    </LinearLayout>
+
     <Button
         android:id="@+id/Btn_GestionUsuario"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
         android:text="Gestion Usuario"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/Layout_TemaPreguntas" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

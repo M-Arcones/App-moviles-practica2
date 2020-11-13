@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 public class Clasificacion extends AppCompatActivity  implements View.OnClickListener{
     private Button ButtonVolver;
-    private String usuario_seleccionado;
+    private String usuario_seleccionado, tema_seleccionado;
     private int num_preguntas;
     private Animation scaleUp, scaleDown;
     private DbManager dbManager;
@@ -24,6 +24,7 @@ public class Clasificacion extends AppCompatActivity  implements View.OnClickLis
         Bundle b=this.getIntent().getExtras();
         num_preguntas=b.getInt("n_preguntas");
         usuario_seleccionado=b.getString("nom_jugador");
+        tema_seleccionado=b.getString("tema_seleccionado");
         setContentView(R.layout.activity_clasificacion);
         ButtonVolver=findViewById(R.id.Btnvolver);
         ButtonVolver.setOnClickListener(this);
@@ -52,6 +53,7 @@ public class Clasificacion extends AppCompatActivity  implements View.OnClickLis
         Bundle b=new Bundle();
         b.putString("nom_jugador",usuario_seleccionado);
         b.putInt("n_preguntas",num_preguntas);
+        b.putString("tema_seleccionado",tema_seleccionado);
         //ButtonVolver.startAnimation(scaleDown);
         //ButtonVolver.startAnimation(scaleUp);
         intent = new Intent(this, MainActivity.class);

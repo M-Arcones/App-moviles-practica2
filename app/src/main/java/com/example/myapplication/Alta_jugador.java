@@ -14,7 +14,7 @@ import android.widget.Toast;
 public class Alta_jugador extends AppCompatActivity implements View.OnClickListener{
 
     private Button ButtonVolver, ButtonGuardar;
-    private String usuario_seleccionado;
+    private String usuario_seleccionado, tema_seleccionado;
     private int num_preguntas;
     private DbManager dbManager;
     @Override
@@ -24,6 +24,7 @@ public class Alta_jugador extends AppCompatActivity implements View.OnClickListe
         Bundle b=this.getIntent().getExtras();
         num_preguntas=b.getInt("n_preguntas");
         usuario_seleccionado=b.getString("nom_jugador");
+        tema_seleccionado=b.getString("tema_seleccionado");
         ButtonVolver=findViewById(R.id.BtnVolver);
         ButtonGuardar=findViewById(R.id.BtnGuardar);
         ButtonVolver.setOnClickListener(this);
@@ -34,6 +35,7 @@ public class Alta_jugador extends AppCompatActivity implements View.OnClickListe
         Intent intent;
         Bundle b = new Bundle();
         b.putInt("n_preguntas", num_preguntas);
+        b.putString("tema_seleccionado", tema_seleccionado);
         switch (v.getId()) {
             case (R.id.BtnVolver):
                 b.putString("nom_jugador", usuario_seleccionado);

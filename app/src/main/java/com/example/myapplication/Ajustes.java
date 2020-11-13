@@ -14,7 +14,7 @@ public class Ajustes extends AppCompatActivity implements View.OnClickListener{
     private Button ButtonVolver, ButtonGesUsuario;
     private Animation scaleUp, scaleDown;
     private int num_preguntas;
-    private String usuario_seleccionado;
+    private String usuario_seleccionado, tema_seleccionado;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,6 +22,14 @@ public class Ajustes extends AppCompatActivity implements View.OnClickListener{
         Bundle b=this.getIntent().getExtras();
         num_preguntas=b.getInt("n_preguntas");
         usuario_seleccionado=b.getString("nom_jugador");
+        tema_seleccionado=b.getString("tema_seleccionado");
+
+        if(tema_seleccionado.equals("Baloncesto")){
+            ((RadioButton) findViewById(R.id.Rbtn_temaBaloncesto)).setChecked(true);
+        }else{
+            ((RadioButton) findViewById(R.id.Rbtn_temaFutbol)).setChecked(true);
+        }
+
         switch (num_preguntas){
             case 5:
                 ((RadioButton) findViewById(R.id.Rbtn_5preg)).setChecked(true);
@@ -46,6 +54,12 @@ public class Ajustes extends AppCompatActivity implements View.OnClickListener{
         Intent intent;
         Bundle b=new Bundle();
         b.putString("nom_jugador",usuario_seleccionado);
+        tema_seleccionado=b.getString("tema_seleccionado");
+        if(((RadioButton) findViewById(R.id.Rbtn_temaBaloncesto)).isChecked()){
+            b.putString("tema_seleccionado","Baloncesto");
+        }else{
+            b.putString("tema_seleccionado","Futbol");
+        }
         if(((RadioButton) findViewById(R.id.Rbtn_5preg)).isChecked()){
             b.putInt("n_preguntas",5);
         }else{

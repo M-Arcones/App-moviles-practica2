@@ -53,7 +53,7 @@ public class QuestionManager extends AppCompatActivity implements View.OnClickLi
     int Fallos=0;
     int n_preguntas_totales;
     int n_preguntas_test;
-    String TipoPreguntaActual, usuario_seleccionado, Respuesta;
+    String TipoPreguntaActual, usuario_seleccionado, tema_seleccionado, Respuesta;
     int n_pregunta=1;
     Animation scaleUp, scaleDown;
     Button btn_validar, btn_PlaySound, btn_PauseSound;
@@ -90,14 +90,15 @@ public class QuestionManager extends AppCompatActivity implements View.OnClickLi
         rnd = new Random();
         rnd.setSeed(date.getTime());//cambiar a la hora
 
-        Cargar_preguntas();
 
         intent = new Intent(this, Resultados.class);
         Bundle b=this.getIntent().getExtras();
         n_preguntas_test=b.getInt("n_preguntas");
-        n_preguntas_totales = todasPreguntas.size();
         usuario_seleccionado=b.getString("nom_jugador");
+        tema_seleccionado=b.getString("tema_seleccionado");
 
+        Cargar_preguntas();
+        n_preguntas_totales = todasPreguntas.size();
 
         ((TextView)findViewById(R.id.TxtPreguntasContestadas)).setText(n_pregunta+"/"+n_preguntas_test);
 
@@ -194,6 +195,7 @@ public class QuestionManager extends AppCompatActivity implements View.OnClickLi
                 intent.putExtra("puntuacion", 0);
                 intent.putExtra("num_preguntas", n_preguntas_test);
                 intent.putExtra("nom_jugador", usuario_seleccionado);
+                intent.putExtra("tema_seleccionado", tema_seleccionado);
                 startActivity(intent);
             }
         }.start();
@@ -331,6 +333,7 @@ public class QuestionManager extends AppCompatActivity implements View.OnClickLi
             intent.putExtra("puntuacion", Puntuacion+  Integer.parseInt(((TextView) findViewById(R.id.Txt_CuentaAtras)).getText().toString().replaceAll("\\s+","")));
             intent.putExtra("num_preguntas", n_preguntas_test);
             intent.putExtra("nom_jugador", usuario_seleccionado);
+            intent.putExtra("tema_seleccionado", tema_seleccionado);
             CuentaAtras.cancel();
             startActivity(intent);
         }
@@ -634,6 +637,7 @@ public class QuestionManager extends AppCompatActivity implements View.OnClickLi
                     break;
             }
             preguntaActual.pregunta = c_preguntas.getString(c_preguntas.getColumnIndex(DbContract.DbEntry.COLUMN_ASK));
+            preguntaActual.tema = c_preguntas.getString(c_preguntas.getColumnIndex(DbContract.DbEntry.COLUMN_TEMA));
             preguntaActual.sonido = c_preguntas.getString(c_preguntas.getColumnIndex(DbContract.DbEntry.COLUMN_SONIDO));
             preguntaActual.video = c_preguntas.getString(c_preguntas.getColumnIndex(DbContract.DbEntry.COLUMN_VIDEO));
             preguntaActual.explicacion = c_preguntas.getString(c_preguntas.getColumnIndex(DbContract.DbEntry.COLUMN_EXPLICACION));
@@ -657,7 +661,9 @@ public class QuestionManager extends AppCompatActivity implements View.OnClickLi
                 }
             }
             c_preguntas.moveToNext();
-            todasPreguntas.add(preguntaActual);
+            if(preguntaActual.tema.equals(tema_seleccionado)) {
+                todasPreguntas.add(preguntaActual);
+            }
             preguntaActual=null;
         }
     }

@@ -24,6 +24,7 @@ public class DbManager {
     public Cursor getPreguntas () {
         String[] columns = new String[]{
                 DbContract.DbEntry.COLUMN_TIPO,
+                DbContract.DbEntry.COLUMN_TEMA,
                 DbContract.DbEntry.COLUMN_ASK,
                 DbContract.DbEntry.COLUMN_ID_RESPUESTA,
                 DbContract.DbEntry.COLUMN_EXPLICACION,
@@ -59,6 +60,38 @@ public class DbManager {
         return db.query(DbContract.DbEntry.TABLE_JUGADORES, columns, null, null,
                 null, null, null);
     }
+
+    public void delete_Jugadores(String nomUsuario)
+    {
+        db.delete(DbContract.DbEntry.TABLE_JUGADORES, DbContract.DbEntry.COLUMN_NOMJUGADOR + "= '" + nomUsuario + "'", null);
+    }
+
+    public void delete_Puntuacion(String nomUsuario)
+    {
+        db.delete(DbContract.DbEntry.TABLE_PUNTUACION, DbContract.DbEntry.COLUMN_NOMJUGADOR + "= '" + nomUsuario + "'", null);
+    }
+
+    public int getNPartidas(String nomUsuario) {
+        String QueryMaxPt = "SELECT * FROM " + DbContract.DbEntry.TABLE_PUNTUACION + " WHERE "+ DbContract.DbEntry.COLUMN_NOMJUGADOR + "= '"+ nomUsuario+ "'";
+        Cursor cursor = db.rawQuery(QueryMaxPt, null);
+        int maxPuntuacion = cursor.getCount();
+        return maxPuntuacion;
+    }
+
+    public Cursor getMaxPuntuacion(String nomUsuario) {
+        String Columnas=  "MAX("+ DbContract.DbEntry.COLUMN_PUNTUACION+") as Maxima " ;
+        String QueryNPartidas = "SELECT " + Columnas + " FROM " + DbContract.DbEntry.TABLE_PUNTUACION + " WHERE "+ DbContract.DbEntry.COLUMN_NOMJUGADOR + "= '"+ nomUsuario+ "'";
+        Cursor cursor = db.rawQuery(QueryNPartidas, null);
+        return cursor;
+    }
+
+    public Cursor getUlltimaPartida(String nomUsuario) {
+        String Columnas=  "MAX("+ DbContract.DbEntry.COLUMN_FECHAPARTIDA+") as Maxima " ;
+        String QueryNPartidas = "SELECT " + Columnas + " FROM " + DbContract.DbEntry.TABLE_PUNTUACION + " WHERE "+ DbContract.DbEntry.COLUMN_NOMJUGADOR + "= '"+ nomUsuario+ "'";
+        Cursor cursor = db.rawQuery(QueryNPartidas, null);
+        return cursor;
+    }
+
 
     public void insertJugador(String playerName){
         this.db.insert(DbContract.DbEntry.TABLE_JUGADORES, null,
