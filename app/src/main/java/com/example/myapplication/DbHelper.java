@@ -39,6 +39,7 @@ public class DbHelper extends SQLiteOpenHelper {
         //db.execSQL("INSERT INTO Preguntas VALUES ('ID', 'COLUMN_TIPO', 'COLUMN_ASK', 'COLUMN_ID_RESPUESTA','COLUMN_EXPLICACION','COLUMN_SOLUCION','COLUMN_MIN','COLUMN_MAX','COLUMN_ID_IMAGEN')");
         //db.execSQL("INSERT INTO Respuestas VALUES ('ID_RESPUESTA', 'RESPUESTA')");
         //db.execSQL("INSERT INTO Respuestas VALUES ('ID_IMAGEN', 'IMAGEN')");
+
         //Futbol
         db.execSQL("INSERT INTO Preguntas VALUES (1, 'Futbol', 'Button', '¿Quién fue el jugador que marcó en la final del mundial de 2010?', 1,'Iniesta marcó en la prórroga el gol decisivo que dio el título a España en una disputadísima final contra Holanda (0-1)','Andrés Iniesta',NULL,NULL,NULL,NULL,NULL)");
         db.execSQL("INSERT INTO Respuestas VALUES (1, 'Andrés Iniesta')");
@@ -166,6 +167,7 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL("INSERT INTO Respuestas VALUES (19, 'Borussia Dortmund')");
         db.execSQL("INSERT INTO Respuestas VALUES (19, 'Borussia Mönchengladbach')");
         db.execSQL("INSERT INTO Respuestas VALUES (19, 'Bayer 04 Leverkusen')");
+
 
         //Videojuegos
         // /*https://youtu.be/krlaWEIx4XY*/

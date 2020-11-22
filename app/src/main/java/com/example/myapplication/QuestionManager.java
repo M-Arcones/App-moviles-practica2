@@ -200,6 +200,12 @@ public class QuestionManager extends AppCompatActivity implements View.OnClickLi
             }
 
             public void onFinish() {
+                if(mediaPlayer.isPlaying()){
+                    mediaPlayer.stop();
+                }
+                if(videoView.isPlaying()){
+                    videoView.pause();
+                }
                 intent.putExtra("puntuacion", 0);
                 intent.putExtra("num_preguntas", n_preguntas_test);
                 intent.putExtra("nom_jugador", usuario_seleccionado);
@@ -233,8 +239,12 @@ public class QuestionManager extends AppCompatActivity implements View.OnClickLi
             case "Sonido":
             case "Button":
             case "Imagen":
+            case "Video":
                 if(mediaPlayer.isPlaying()){
                     mediaPlayer.stop();
+                }
+                if(videoView.isPlaying()){
+                    videoView.pause();
                 }
                 RadioButton ArrayRespRadioButton[]= { ((RadioButton)findViewById(R.id.RbtnResp1)),
                         ((RadioButton)findViewById(R.id.RbtnResp2)),
@@ -473,6 +483,7 @@ public class QuestionManager extends AppCompatActivity implements View.OnClickLi
 
                 try {
                     SonidoID = this.getResources().getIdentifier(preguntas.get(0).sonido, "raw", this.getPackageName());
+                    mediaPlayer.reset();
                     mediaPlayer.setDataSource(this, Uri.parse("android.resource://" +getPackageName()+ "/" +SonidoID));
                     mediaPlayer.setVolume(20,20);
                     mediaPlayer.prepare();
