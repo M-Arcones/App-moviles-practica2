@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/fondo_preguntas"
+    android:background="@drawable/background_videogames"
+    android:id="@+id/questionaryView"
     android:visibility="visible"
     tools:context=".QuestionManager"
     tools:visibility="visible">

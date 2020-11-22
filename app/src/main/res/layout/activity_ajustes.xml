@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@drawable/background"
     android:layout_height="match_parent"
     tools:context=".Ajustes">
 
@@ -22,12 +23,13 @@
         android:id="@+id/Btn_volver"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="150dp"
         android:text="Volver"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Btn_GestionUsuario"
+        app:layout_constraintVertical_bias="0.141" />
 
     <LinearLayout
         android:id="@+id/Layout_NPreguntas"
@@ -101,7 +103,7 @@
                 android:id="@+id/Rbtn_temaBaloncesto"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Baloncesto" />
+                android:text="Videojuegos" />
         </RadioGroup>
     </LinearLayout>
 
@@ -110,9 +112,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Gestion Usuario"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Layout_TemaPreguntas" />
+        app:layout_constraintTop_toBottomOf="@+id/Layout_TemaPreguntas"
+        app:layout_constraintVertical_bias="0.101" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

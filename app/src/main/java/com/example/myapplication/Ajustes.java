@@ -24,7 +24,7 @@ public class Ajustes extends AppCompatActivity implements View.OnClickListener{
         usuario_seleccionado=b.getString("nom_jugador");
         tema_seleccionado=b.getString("tema_seleccionado");
 
-        if(tema_seleccionado.equals("Baloncesto")){
+        if(tema_seleccionado.equals("Videojuegos")){
             ((RadioButton) findViewById(R.id.Rbtn_temaBaloncesto)).setChecked(true);
         }else{
             ((RadioButton) findViewById(R.id.Rbtn_temaFutbol)).setChecked(true);
@@ -56,7 +56,7 @@ public class Ajustes extends AppCompatActivity implements View.OnClickListener{
         b.putString("nom_jugador",usuario_seleccionado);
         tema_seleccionado=b.getString("tema_seleccionado");
         if(((RadioButton) findViewById(R.id.Rbtn_temaBaloncesto)).isChecked()){
-            b.putString("tema_seleccionado","Baloncesto");
+            b.putString("tema_seleccionado","Videojuegos");
         }else{
             b.putString("tema_seleccionado","Futbol");
         }

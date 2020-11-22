@@ -1,6 +1,8 @@
 package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 
 
 import android.content.Intent;
@@ -96,6 +98,12 @@ public class QuestionManager extends AppCompatActivity implements View.OnClickLi
         n_preguntas_test=b.getInt("n_preguntas");
         usuario_seleccionado=b.getString("nom_jugador");
         tema_seleccionado=b.getString("tema_seleccionado");
+
+        if(tema_seleccionado.equals("Futbol")){
+            findViewById(R.id.questionaryView).setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.background_football));
+        }else{
+            findViewById(R.id.questionaryView).setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.background_videogames));
+        }
 
         Cargar_preguntas();
         n_preguntas_totales = todasPreguntas.size();
