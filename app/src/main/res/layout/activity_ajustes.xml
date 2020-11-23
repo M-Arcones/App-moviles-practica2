@@ -14,7 +14,10 @@
         android:layout_marginTop="10dp"
         android:text="Ajustes"
         android:textAlignment="center"
-        android:textSize="24sp"
+        android:textSize="24dp"
+        android:textStyle="bold"
+        android:textColor="#000000"
+        android:fontFamily="@font/cherry_cream_soda"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -23,19 +26,24 @@
         android:id="@+id/Btn_volver"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@drawable/button"
+        android:textStyle="bold"
+        android:textColor="#000000"
+        android:fontFamily="@font/cherry_cream_soda"
         android:text="Volver"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Btn_GestionUsuario"
-        app:layout_constraintVertical_bias="0.141" />
+        app:layout_constraintVertical_bias="0.072" />
 
     <LinearLayout
         android:id="@+id/Layout_NPreguntas"
         android:layout_width="255dp"
         android:layout_height="158dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="48dp"
+        android:background="@drawable/panel_pregunta"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -45,7 +53,10 @@
             android:id="@+id/Txt_NPreguntas"
             android:layout_width="wrap_content"
             android:layout_height="33dp"
-            android:text="Elige el numero de preguntas a realizar:" />
+            android:fontFamily="@font/cherry_cream_soda"
+            android:text="Elige el numero de preguntas a realizar:"
+            android:textColor="#000000"
+            android:textStyle="bold" />
 
         <RadioGroup
             android:id="@+id/Rgbtn_n_preguntas"
@@ -56,19 +67,28 @@
                 android:id="@+id/Rbtn_5preg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="5" />
+                android:fontFamily="@font/cherry_cream_soda"
+                android:text="5"
+                android:textColor="#000000"
+                android:textStyle="bold" />
 
             <RadioButton
                 android:id="@+id/Rbtn_10preg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="10" />
+                android:fontFamily="@font/cherry_cream_soda"
+                android:text="10"
+                android:textColor="#000000"
+                android:textStyle="bold" />
 
             <RadioButton
                 android:id="@+id/Rbtn_15preg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="15" />
+                android:fontFamily="@font/cherry_cream_soda"
+                android:text="15"
+                android:textColor="#000000"
+                android:textStyle="bold" />
         </RadioGroup>
 
     </LinearLayout>
@@ -76,7 +96,8 @@
     <LinearLayout
         android:id="@+id/Layout_TemaPreguntas"
         android:layout_width="255dp"
-        android:layout_height="242dp"
+        android:layout_height="127dp"
+        android:background="@drawable/panel_pregunta"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -86,32 +107,45 @@
             android:id="@+id/TxtTemaPreguntas"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Seleccion el tema de las preguntas del test:" />
+            android:fontFamily="@font/cherry_cream_soda"
+            android:text="Seleccion el tema de las preguntas del test:"
+            android:textColor="#000000"
+            android:textStyle="bold" />
 
         <RadioGroup
             android:id="@+id/Rgbtn_TemaPreguntas"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent">
 
             <RadioButton
                 android:id="@+id/Rbtn_temaFutbol"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Futbol" />
+                android:fontFamily="@font/cherry_cream_soda"
+                android:text="Futbol"
+                android:textColor="#000000"
+                android:textStyle="bold" />
 
             <RadioButton
                 android:id="@+id/Rbtn_temaBaloncesto"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Videojuegos" />
+                android:fontFamily="@font/cherry_cream_soda"
+                android:text="Videojuegos"
+                android:textColor="#000000"
+                android:textStyle="bold" />
         </RadioGroup>
     </LinearLayout>
 
     <Button
         android:id="@+id/Btn_GestionUsuario"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="169dp"
+        android:layout_height="57dp"
+        android:background="@drawable/button"
+        android:fontFamily="@font/cherry_cream_soda"
         android:text="Gestion Usuario"
+        android:textColor="#000000"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"

@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Clasificacion">
@@ -12,6 +13,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="Clasificacion"
+        android:textStyle="bold"
+        android:textColor="#000000"
+        android:textSize="24dp"
+        android:fontFamily="@font/cherry_cream_soda"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
@@ -34,6 +39,7 @@
         android:layout_height="429dp"
         android:layout_marginTop="30dp"
         android:orientation="horizontal"
+        android:background="@drawable/panel_pregunta"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Txt_Clasificacion">
@@ -49,12 +55,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="37dp"
                 android:text="JUGADORES"
+                android:textStyle="bold"
+                android:textColor="#000000"
+                android:fontFamily="@font/cherry_cream_soda"
                 android:textAlignment="center" />
 
             <TextView
                 android:id="@+id/TXT_NomJugador1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textColor="#000000"
+                android:fontFamily="@font/cherry_cream_soda"
                 android:text=""
                 android:textAlignment="center" />
 
@@ -62,6 +74,9 @@
                 android:id="@+id/TXT_NomJugador2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textColor="#000000"
+                android:fontFamily="@font/cherry_cream_soda"
                 android:text=""
                 android:textAlignment="center" />
 
@@ -69,6 +84,9 @@
                 android:id="@+id/TXT_NomJugador3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textColor="#000000"
+                android:fontFamily="@font/cherry_cream_soda"
                 android:text=""
                 android:textAlignment="center" />
 
@@ -76,6 +94,9 @@
                 android:id="@+id/TXT_NomJugador4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textColor="#000000"
+                android:fontFamily="@font/cherry_cream_soda"
                 android:text=""
                 android:textAlignment="center" />
 
@@ -83,6 +104,9 @@
                 android:id="@+id/TXT_NomJugador5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textColor="#000000"
+                android:fontFamily="@font/cherry_cream_soda"
                 android:text=""
                 android:textAlignment="center" />
         </LinearLayout>
@@ -98,12 +122,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="37dp"
                 android:text="PUNTUACIONES"
+                android:textStyle="bold"
+                android:textColor="#000000"
+                android:fontFamily="@font/cherry_cream_soda"
                 android:textAlignment="center" />
 
             <TextView
                 android:id="@+id/TXT_PuntuacionJ1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textColor="#000000"
+                android:fontFamily="@font/cherry_cream_soda"
                 android:text=""
                 android:textAlignment="center" />
 
@@ -117,6 +147,9 @@
                 android:id="@+id/TXT_PuntuacionJ3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textColor="#000000"
+                android:fontFamily="@font/cherry_cream_soda"
                 android:text=""
                 android:textAlignment="center" />
 
@@ -124,6 +157,9 @@
                 android:id="@+id/TXT_PuntuacionJ4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textColor="#000000"
+                android:fontFamily="@font/cherry_cream_soda"
                 android:text=""
                 android:textAlignment="center" />
 
@@ -131,9 +167,11 @@
                 android:id="@+id/TXT_PuntuacionJ5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textColor="#000000"
+                android:fontFamily="@font/cherry_cream_soda"
                 android:text=""
                 android:textAlignment="center" />
-
         </LinearLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

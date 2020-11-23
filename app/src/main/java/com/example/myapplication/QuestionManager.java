@@ -216,11 +216,17 @@ public class QuestionManager extends AppCompatActivity implements View.OnClickLi
 
         btn_PlaySound.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {mediaPlayer.start();}
+            public void onClick(View v) {
+                btn_PlaySound.startAnimation(scaleDown);
+                btn_PlaySound.startAnimation(scaleUp);
+                mediaPlayer.start();}
         });
         btn_PauseSound.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {mediaPlayer.pause();}
+            public void onClick(View v) {
+                btn_PauseSound.startAnimation(scaleDown);
+                btn_PauseSound.startAnimation(scaleUp);
+                mediaPlayer.pause();}
         });
 
     }

@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -21,6 +22,8 @@ public class Clasificacion extends AppCompatActivity  implements View.OnClickLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        scaleUp= AnimationUtils.loadAnimation(this, R.anim.scale_up);
+        scaleDown= AnimationUtils.loadAnimation(this, R.anim.scale_down);
         Bundle b=this.getIntent().getExtras();
         num_preguntas=b.getInt("n_preguntas");
         usuario_seleccionado=b.getString("nom_jugador");
@@ -49,13 +52,13 @@ public class Clasificacion extends AppCompatActivity  implements View.OnClickLis
 
 
     public void onClick(View v) {
+        ButtonVolver.startAnimation(scaleDown);
+        ButtonVolver.startAnimation(scaleUp);
         Intent intent;
         Bundle b=new Bundle();
         b.putString("nom_jugador",usuario_seleccionado);
         b.putInt("n_preguntas",num_preguntas);
         b.putString("tema_seleccionado",tema_seleccionado);
-        //ButtonVolver.startAnimation(scaleDown);
-        //ButtonVolver.startAnimation(scaleUp);
         intent = new Intent(this, MainActivity.class);
         intent.putExtras(b);
         startActivity(intent);

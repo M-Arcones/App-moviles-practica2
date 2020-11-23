@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -18,8 +20,9 @@ import java.util.ArrayList;
 public class GestionUsuario extends AppCompatActivity  implements View.OnClickListener{
 
     private int num_preguntas;
+    private Animation scaleUp, scaleDown;
     private String usuario_seleccionado, tema_seleccionado;
-    private Button ButtonVolver, ButtonNuevoUsuario, ButtonEliminarUsuario;
+    private Button ButtonVolver, ButtonNuevoUsuario, ButtonEliminarUsuario, ButtonModificarUsuario;
 
     private DbManager dbManager;
     private Cursor c_usuarios;
@@ -44,6 +47,10 @@ public class GestionUsuario extends AppCompatActivity  implements View.OnClickLi
         ButtonVolver.setOnClickListener(this);
         ButtonNuevoUsuario.setOnClickListener(this);
         ButtonEliminarUsuario.setOnClickListener(this);
+        ButtonModificarUsuario.setOnClickListener(this);
+        scaleUp= AnimationUtils.loadAnimation(this, R.anim.scale_up);
+        scaleDown= AnimationUtils.loadAnimation(this, R.anim.scale_down);
+
         Spinner Spn_Jugadores = findViewById(R.id.Spn_Jugadores);
 
         this.dbManager = new DbManager(this);
@@ -123,6 +130,8 @@ public class GestionUsuario extends AppCompatActivity  implements View.OnClickLi
         Spinner Spn_Jugadores = findViewById(R.id.Spn_Jugadores);
         switch (v.getId()) {
             case (R.id.Btn_Volver):
+                ButtonVolver.startAnimation(scaleDown);
+                ButtonVolver.startAnimation(scaleUp);
                 usuario_seleccionado = Spn_Jugadores.getSelectedItem().toString();
                 b.putString("nom_jugador", usuario_seleccionado);
                 b.putString("tema_seleccionado", tema_seleccionado);
@@ -132,7 +141,9 @@ public class GestionUsuario extends AppCompatActivity  implements View.OnClickLi
                 startActivity(intent);
             break;
             case (R.id.Btn_AltaJugador):
-                usuario_seleccionado = Spn_Jugadores.getSelectedItem().toString();
+                ButtonNuevoUsuario.startAnimation(scaleDown);
+                ButtonNuevoUsuario.startAnimation(scaleUp);
+                //usuario_seleccionado = Spn_Jugadores.getSelectedItem().toString();
                 b.putString("nom_jugador", usuario_seleccionado);
                 b.putString("tema_seleccionado", tema_seleccionado);
                 b.putInt("n_preguntas", num_preguntas);
@@ -141,6 +152,8 @@ public class GestionUsuario extends AppCompatActivity  implements View.OnClickLi
                 startActivity(intent);
             break;
             case (R.id.Btn_Eliminar_Usuario):
+                ButtonEliminarUsuario.startAnimation(scaleDown);
+                ButtonEliminarUsuario.startAnimation(scaleUp);
                 dbManager.delete_Puntuacion(Spn_Jugadores.getSelectedItem().toString());
                 dbManager.delete_Jugadores(Spn_Jugadores.getSelectedItem().toString());
                 arrayList.remove(Spn_Jugadores.getSelectedItem().toString());

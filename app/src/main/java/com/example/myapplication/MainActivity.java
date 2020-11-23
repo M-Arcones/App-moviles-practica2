@@ -81,15 +81,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             break;
             case (R.id.Btn_Continuar):
-                //ButtonContinuar.startAnimation(scaleDown);
-                //ButtonContinuar.startAnimation(scaleUp);
+                ButtonContinuar.startAnimation(scaleDown);
+                ButtonContinuar.startAnimation(scaleUp);
                 intent = new Intent(this, QuestionManager.class);
                 intent.putExtras(b);
                 startActivity(intent);
             break;
             case (R.id.Btn_Seleccion):
-                //ButtonUsuario.startAnimation(scaleDown);
-                //ButtonUsuario.startAnimation(scaleUp);
+                ButtonUsuario.startAnimation(scaleDown);
+                ButtonUsuario.startAnimation(scaleUp);
                 intent = new Intent(this, Alta_jugador.class);
                 intent.putExtras(b);
                 startActivity(intent);

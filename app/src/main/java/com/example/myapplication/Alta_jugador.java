@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -14,6 +16,7 @@ import android.widget.Toast;
 public class Alta_jugador extends AppCompatActivity implements View.OnClickListener{
 
     private Button ButtonVolver, ButtonGuardar;
+    private Animation scaleUp, scaleDown;
     private String usuario_seleccionado, tema_seleccionado;
     private int num_preguntas;
     private DbManager dbManager;
@@ -21,6 +24,8 @@ public class Alta_jugador extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_altamodificacion_jugador);
+        scaleUp= AnimationUtils.loadAnimation(this, R.anim.scale_up);
+        scaleDown= AnimationUtils.loadAnimation(this, R.anim.scale_down);
         Bundle b=this.getIntent().getExtras();
         num_preguntas=b.getInt("n_preguntas");
         usuario_seleccionado=b.getString("nom_jugador");
@@ -38,9 +43,13 @@ public class Alta_jugador extends AppCompatActivity implements View.OnClickListe
         b.putString("tema_seleccionado", tema_seleccionado);
         switch (v.getId()) {
             case (R.id.BtnVolver):
+                ButtonVolver.startAnimation(scaleDown);
+                ButtonVolver.startAnimation(scaleUp);
                 b.putString("nom_jugador", usuario_seleccionado);
                 break;
             case (R.id.BtnGuardar):
+                ButtonGuardar.startAnimation(scaleDown);
+                ButtonGuardar.startAnimation(scaleUp);
                 this.dbManager = new DbManager(this);
                 dbManager.insertJugador(((EditText) findViewById(R.id.InputTextNombre)).getText().toString());
                 CharSequence text = "Uusrio Guardado";

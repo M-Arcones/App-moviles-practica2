@@ -4,13 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background"
     tools:context=".Alta_jugador">
 
     <TextView
         android:id="@+id/Txt_AltaUsuarios"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="24dp"
+        android:textSize="24dp"
+        android:textStyle="bold"
+        android:textColor="#000000"
+        android:fontFamily="@font/cherry_cream_soda"
         android:text="Alta Usuario"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
         app:layout_constraintEnd_toEndOf="parent"
@@ -23,6 +28,7 @@
         android:layout_width="357dp"
         android:layout_height="85dp"
         android:layout_marginTop="40dp"
+        android:background="@drawable/panel_pregunta"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -32,15 +38,22 @@
             android:id="@+id/Txt_nombreUsuario"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="14dp"
+            android:textStyle="bold"
+            android:textColor="#000000"
+            android:fontFamily="@font/cherry_cream_soda"
             android:text="Nombre Usuario:    " />
 
         <EditText
             android:id="@+id/InputTextNombre"
-            android:layout_width="258dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:textSize="12dp"
             android:inputType="textPersonName"
-            android:text="Usuario" />
+            android:text="Usuario"
+            android:textColor="#000000"
+            android:textStyle="bold" />
 
     </LinearLayout>
 
@@ -64,31 +77,44 @@
             android:id="@+id/Btn_subirImagen"
             android:layout_width="170dp"
             android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textColor="#000000"
+            android:fontFamily="@font/cherry_cream_soda"
+            android:background="@drawable/button"
             android:text="Subir Imagen" />
 
     </LinearLayout>
 
     <Button
         android:id="@+id/BtnVolver"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
-        android:layout_marginEnd="112dp"
+        android:layout_width="105dp"
+        android:layout_height="51dp"
+        android:background="@drawable/button"
+        android:fontFamily="@font/cherry_cream_soda"
         android:text="Volver"
+        android:textColor="#000000"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/BtnGuardar"
+        app:layout_constraintVertical_bias="0.232" />
 
     <Button
         android:id="@+id/BtnGuardar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="105dp"
+        android:layout_height="51dp"
         android:layout_marginTop="36dp"
+        android:background="@drawable/button"
+        android:fontFamily="@font/cherry_cream_soda"
         android:text="Guardar"
+        android:textColor="#000000"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/BtnVolver"
-        app:layout_constraintHorizontal_bias="0.91"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.486"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3"
+        app:layout_constraintVertical_bias="0.177" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
