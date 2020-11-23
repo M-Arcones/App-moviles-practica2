@@ -44,6 +44,7 @@ public class GestionUsuario extends AppCompatActivity  implements View.OnClickLi
         ButtonVolver=findViewById(R.id.Btn_Volver);
         ButtonNuevoUsuario=findViewById(R.id.Btn_AltaJugador);
         ButtonEliminarUsuario=findViewById(R.id.Btn_Eliminar_Usuario);
+        ButtonModificarUsuario=findViewById(R.id.btn_ModificarUsuario);
         ButtonVolver.setOnClickListener(this);
         ButtonNuevoUsuario.setOnClickListener(this);
         ButtonEliminarUsuario.setOnClickListener(this);
@@ -163,6 +164,10 @@ public class GestionUsuario extends AppCompatActivity  implements View.OnClickLi
                 Spn_Jugadores.setSelection(arrayList.indexOf("Anonimo"));
                 findViewById(R.id.LayoutDatosJugador).setVisibility(View.GONE);
             break;
+            case (R.id.btn_ModificarUsuario):
+                ButtonModificarUsuario.startAnimation(scaleDown);
+                ButtonModificarUsuario.startAnimation(scaleUp);
+                break;
         }
     }
 }
