@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case (R.id.Btn_Seleccion):
                 ButtonUsuario.startAnimation(scaleDown);
                 ButtonUsuario.startAnimation(scaleUp);
-                intent = new Intent(this, Alta_jugador.class);
+                intent = new Intent(this, GestionUsuario.class);
                 intent.putExtras(b);
                 startActivity(intent);
             break;

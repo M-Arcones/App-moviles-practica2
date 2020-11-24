@@ -8,6 +8,7 @@ import androidx.core.content.ContextCompat;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.Image;
@@ -31,10 +32,11 @@ public class Alta_jugador extends AppCompatActivity implements View.OnClickListe
     private int PERMISSION_REQUEST_CODE_CAMERA = 100;
     private Button ButtonVolver, ButtonGuardar, ButtonImagen;
     private Animation scaleUp, scaleDown;
-    private String usuario_seleccionado, tema_seleccionado;
+    private String usuario_seleccionado, tema_seleccionado, from;
     private int num_preguntas;
     private byte[] imageBlob;
     private ImageView imageView;
+    private EditText editText;
 
     private DbManager dbManager;
     @Override
@@ -47,6 +49,7 @@ public class Alta_jugador extends AppCompatActivity implements View.OnClickListe
         num_preguntas=b.getInt("n_preguntas");
         usuario_seleccionado=b.getString("nom_jugador");
         tema_seleccionado=b.getString("tema_seleccionado");
+        from=b.getString("from");
         ButtonVolver=findViewById(R.id.BtnVolver);
         ButtonGuardar=findViewById(R.id.BtnGuardar);
         ButtonImagen=findViewById(R.id.Btn_subirImagen);
@@ -54,15 +57,29 @@ public class Alta_jugador extends AppCompatActivity implements View.OnClickListe
         ButtonGuardar.setOnClickListener(this);
         ButtonImagen.setOnClickListener(this);
         imageView = findViewById(R.id.imageView);
+        editText = findViewById(R.id.InputTextNombre);
 
         //Compress default image to blob
-        InputStream recursoRaw = getResources().openRawResource(R.raw.default_image);
-        Bitmap bitmap = (Bitmap) BitmapFactory.decodeStream(recursoRaw);
-        imageView.setImageBitmap(bitmap);
+        if(from.equals("Alta")){
+            editText.setFocusable(true);
+            InputStream recursoRaw = getResources().openRawResource(R.raw.default_image);
+            Bitmap bitmap = (Bitmap) BitmapFactory.decodeStream(recursoRaw);
+            imageView.setImageBitmap(bitmap);
 
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, bos);
-        imageBlob = bos.toByteArray();
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, bos);
+            imageBlob = bos.toByteArray();
+        }else{
+            editText.setFocusable(false);
+            this.dbManager = new DbManager(this);
+            Cursor c_Foto = dbManager.getFotoJugador(editText.getText().toString());
+            c_Foto.moveToFirst();
+            Bitmap bitmap = BitmapFactory.decodeByteArray(c_Foto.getBlob(c_Foto.getColumnIndex(
+                    DbContract.DbEntry.COLUMN_FOTO)),0,c_Foto.getBlob(c_Foto.getColumnIndex(
+                    DbContract.DbEntry.COLUMN_FOTO)).length);
+            imageView.setImageBitmap(bitmap);
+        }
+
         requestPermission();
     }
 
@@ -85,12 +102,15 @@ public class Alta_jugador extends AppCompatActivity implements View.OnClickListe
                 ButtonGuardar.startAnimation(scaleDown);
                 ButtonGuardar.startAnimation(scaleUp);
                 this.dbManager = new DbManager(this);
-                dbManager.insertJugador(((EditText) findViewById(R.id.InputTextNombre)).getText().toString(), imageBlob);
+                if(from.equals("Modificar")){
+                    dbManager.delete_Jugadores(editText.getText().toString());
+                }
+                dbManager.insertJugador(editText.getText().toString(), imageBlob);
                 CharSequence text = "Usuario Guardado";
                 int duration = Toast.LENGTH_SHORT;
                 Toast toast = Toast.makeText(this, text, duration);
                 toast.show();
-                b.putString("nom_jugador", ((EditText) findViewById(R.id.InputTextNombre)).getText().toString());
+                b.putString("nom_jugador", editText.getText().toString());
 
                 intent = new Intent(this, GestionUsuario.class);
                 intent.putExtras(b);

@@ -156,6 +156,7 @@ public class GestionUsuario extends AppCompatActivity  implements View.OnClickLi
                 //usuario_seleccionado = Spn_Jugadores.getSelectedItem().toString();
                 b.putString("nom_jugador", usuario_seleccionado);
                 b.putString("tema_seleccionado", tema_seleccionado);
+                b.putString("from", "Alta");
                 b.putInt("n_preguntas", num_preguntas);
                 intent = new Intent(this, Alta_jugador.class);
                 intent.putExtras(b);
@@ -176,6 +177,13 @@ public class GestionUsuario extends AppCompatActivity  implements View.OnClickLi
             case (R.id.btn_ModificarUsuario):
                 ButtonModificarUsuario.startAnimation(scaleDown);
                 ButtonModificarUsuario.startAnimation(scaleUp);
+                b.putString("nom_jugador", usuario_seleccionado);
+                b.putString("tema_seleccionado", tema_seleccionado);
+                b.putString("from", "Modificar");
+                b.putInt("n_preguntas", num_preguntas);
+                intent = new Intent(this, Alta_jugador.class);
+                intent.putExtras(b);
+                startActivity(intent);
                 break;
         }
     }
