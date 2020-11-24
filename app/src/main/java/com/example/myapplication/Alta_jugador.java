@@ -61,6 +61,8 @@ public class Alta_jugador extends AppCompatActivity implements View.OnClickListe
 
         //Compress default image to blob
         if(from.equals("Alta")){
+            ((TextView)findViewById(R.id.Txt_AltaUsuarios)).setText("Alta Jugador");
+            editText.setText("Usuario");
             editText.setFocusable(true);
             InputStream recursoRaw = getResources().openRawResource(R.raw.default_image);
             Bitmap bitmap = (Bitmap) BitmapFactory.decodeStream(recursoRaw);
@@ -70,16 +72,17 @@ public class Alta_jugador extends AppCompatActivity implements View.OnClickListe
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, bos);
             imageBlob = bos.toByteArray();
         }else{
+            ((TextView)findViewById(R.id.Txt_AltaUsuarios)).setText("Modificar Jugador");
+            editText.setText(usuario_seleccionado);
             editText.setFocusable(false);
             this.dbManager = new DbManager(this);
-            Cursor c_Foto = dbManager.getFotoJugador(editText.getText().toString());
+            Cursor c_Foto = dbManager.getFotoJugador(usuario_seleccionado);
             c_Foto.moveToFirst();
             Bitmap bitmap = BitmapFactory.decodeByteArray(c_Foto.getBlob(c_Foto.getColumnIndex(
                     DbContract.DbEntry.COLUMN_FOTO)),0,c_Foto.getBlob(c_Foto.getColumnIndex(
                     DbContract.DbEntry.COLUMN_FOTO)).length);
             imageView.setImageBitmap(bitmap);
         }
-
         requestPermission();
     }
 
@@ -105,13 +108,6 @@ public class Alta_jugador extends AppCompatActivity implements View.OnClickListe
                 if(from.equals("Modificar")){
                     dbManager.delete_Jugadores(editText.getText().toString());
                 }
-                dbManager.insertJugador(editText.getText().toString(), imageBlob);
-                CharSequence text = "Usuario Guardado";
-                int duration = Toast.LENGTH_SHORT;
-                Toast toast = Toast.makeText(this, text, duration);
-                toast.show();
-                b.putString("nom_jugador", editText.getText().toString());
-
                 Cursor c_usuarios=dbManager.getJugadores();
                 c_usuarios.moveToFirst();
                 int i=0;
@@ -122,7 +118,12 @@ public class Alta_jugador extends AppCompatActivity implements View.OnClickListe
                     c_usuarios.moveToNext();
                 }
                 if(i==0){
-                    dbManager.insertJugador(((EditText) findViewById(R.id.InputTextNombre)).getText().toString(), imageBlob);
+                    if(from.equals("Modificar")){
+                        dbManager.insertJugador(usuario_seleccionado, imageBlob);
+                    }
+                    else{
+                        dbManager.insertJugador(((EditText) findViewById(R.id.InputTextNombre)).getText().toString(), imageBlob);
+                    }
                     CharSequence text = "Usuario Guardado";
                     int duration = Toast.LENGTH_SHORT;
                     Toast toast = Toast.makeText(this, text, duration);

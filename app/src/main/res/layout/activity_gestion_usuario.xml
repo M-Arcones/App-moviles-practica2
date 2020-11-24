@@ -167,4 +167,68 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_eliminar"
+        android:layout_width="331dp"
+        android:layout_height="149dp"
+        android:background="@drawable/panel_marcador"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="320dp"
+            android:layout_height="56dp"
+            android:fontFamily="@font/cherry_cream_soda"
+            android:gravity="center"
+            android:text="¿Estás seguro de querer eliminar el usuario de manera apermanente?"
+            android:textAlignment="center"
+            android:textColor="#000000"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/linearLayout"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="331dp"
+            android:layout_height="96dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView">
+
+            <Button
+                android:id="@+id/Btn_Eliminar"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/button"
+                android:fontFamily="@font/cherry_cream_soda"
+                android:text="Si"
+                android:textColor="#000000"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btn_No_Eliminar"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/button"
+                android:fontFamily="@font/cherry_cream_soda"
+                android:text="No"
+                android:textColor="#000000"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

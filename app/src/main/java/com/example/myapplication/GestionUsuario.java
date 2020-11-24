@@ -26,6 +26,7 @@ public class GestionUsuario extends AppCompatActivity  implements View.OnClickLi
     private Animation scaleUp, scaleDown;
     private String usuario_seleccionado, tema_seleccionado;
     private Button ButtonVolver, ButtonNuevoUsuario, ButtonEliminarUsuario, ButtonModificarUsuario;
+    private Button ButtonEliminar, ButtonNoEliminar;
     private ImageView imageView;
     private DbManager dbManager;
     private Cursor c_usuarios;
@@ -48,10 +49,14 @@ public class GestionUsuario extends AppCompatActivity  implements View.OnClickLi
         ButtonNuevoUsuario=findViewById(R.id.Btn_AltaJugador);
         ButtonEliminarUsuario=findViewById(R.id.Btn_Eliminar_Usuario);
         ButtonModificarUsuario=findViewById(R.id.btn_ModificarUsuario);
+        ButtonEliminar=findViewById(R.id.Btn_Eliminar);
+        ButtonNoEliminar=findViewById(R.id.btn_No_Eliminar);
         ButtonVolver.setOnClickListener(this);
         ButtonNuevoUsuario.setOnClickListener(this);
         ButtonEliminarUsuario.setOnClickListener(this);
         ButtonModificarUsuario.setOnClickListener(this);
+        ButtonEliminar.setOnClickListener(this);
+        ButtonNoEliminar.setOnClickListener(this);
         imageView=findViewById(R.id.imageViewGestion);
         scaleUp= AnimationUtils.loadAnimation(this, R.anim.scale_up);
         scaleDown= AnimationUtils.loadAnimation(this, R.anim.scale_down);
@@ -138,11 +143,11 @@ public class GestionUsuario extends AppCompatActivity  implements View.OnClickLi
 
     public void onClick(View v) {
         Spinner Spn_Jugadores = findViewById(R.id.Spn_Jugadores);
+        usuario_seleccionado = Spn_Jugadores.getSelectedItem().toString();
         switch (v.getId()) {
             case (R.id.Btn_Volver):
                 ButtonVolver.startAnimation(scaleDown);
                 ButtonVolver.startAnimation(scaleUp);
-                usuario_seleccionado = Spn_Jugadores.getSelectedItem().toString();
                 b.putString("nom_jugador", usuario_seleccionado);
                 b.putString("tema_seleccionado", tema_seleccionado);
                 b.putInt("n_preguntas", num_preguntas);
@@ -165,14 +170,13 @@ public class GestionUsuario extends AppCompatActivity  implements View.OnClickLi
             case (R.id.Btn_Eliminar_Usuario):
                 ButtonEliminarUsuario.startAnimation(scaleDown);
                 ButtonEliminarUsuario.startAnimation(scaleUp);
-                dbManager.delete_Puntuacion(Spn_Jugadores.getSelectedItem().toString());
-                dbManager.delete_Jugadores(Spn_Jugadores.getSelectedItem().toString());
-                arrayList.remove(Spn_Jugadores.getSelectedItem().toString());
-                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, arrayList);
-                arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                Spn_Jugadores.setAdapter(arrayAdapter);
-                Spn_Jugadores.setSelection(arrayList.indexOf("Anonimo"));
-                findViewById(R.id.LayoutDatosJugador).setVisibility(View.GONE);
+                findViewById(R.id.layout_eliminar).setVisibility(View.VISIBLE);
+                ButtonModificarUsuario.setClickable(false);
+                ButtonEliminarUsuario.setClickable(false);
+                ButtonVolver.setClickable(false);
+                ButtonNuevoUsuario.setClickable(false);
+                Spn_Jugadores.setEnabled(false);
+
             break;
             case (R.id.btn_ModificarUsuario):
                 ButtonModificarUsuario.startAnimation(scaleDown);
@@ -184,6 +188,35 @@ public class GestionUsuario extends AppCompatActivity  implements View.OnClickLi
                 intent = new Intent(this, Alta_jugador.class);
                 intent.putExtras(b);
                 startActivity(intent);
+                break;
+            case (R.id.Btn_Eliminar):
+                ButtonEliminar.startAnimation(scaleDown);
+                ButtonEliminar.startAnimation(scaleUp);
+                dbManager.delete_Puntuacion(Spn_Jugadores.getSelectedItem().toString());
+                dbManager.delete_Jugadores(Spn_Jugadores.getSelectedItem().toString());
+                arrayList.remove(Spn_Jugadores.getSelectedItem().toString());
+                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, arrayList);
+                arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                Spn_Jugadores.setAdapter(arrayAdapter);
+                Spn_Jugadores.setSelection(arrayList.indexOf("Anonimo"));
+                findViewById(R.id.LayoutDatosJugador).setVisibility(View.GONE);
+                findViewById(R.id.layout_eliminar).setVisibility(View.GONE);
+                ButtonModificarUsuario.setClickable(true);
+                ButtonEliminarUsuario.setClickable(true);
+                ButtonVolver.setClickable(true);
+                ButtonNuevoUsuario.setClickable(true);
+                Spn_Jugadores.setEnabled(true);
+                break;
+            case(R.id.btn_No_Eliminar):
+                ButtonNoEliminar.startAnimation(scaleDown);
+                ButtonNoEliminar.startAnimation(scaleUp);
+                ButtonModificarUsuario.setClickable(true);
+                ButtonModificarUsuario.setClickable(true);
+                ButtonEliminarUsuario.setClickable(true);
+                ButtonVolver.setClickable(true);
+                ButtonNuevoUsuario.setClickable(true);
+                Spn_Jugadores.setEnabled(true);
+                findViewById(R.id.layout_eliminar).setVisibility(View.GONE);
                 break;
         }
     }
