@@ -54,14 +54,20 @@
 
     <LinearLayout
         android:id="@+id/LayoutDatosJugador"
-        android:layout_width="363dp"
-        android:layout_height="162dp"
+        android:layout_width="362dp"
+        android:layout_height="316dp"
         android:layout_marginTop="50dp"
         android:background="@drawable/panel_pregunta"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout5">
+
+        <ImageView
+            android:id="@+id/imageViewGestion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:srcCompat="@tools:sample/avatars" />
 
         <LinearLayout
             android:id="@+id/Layout_Npartidas_MaxPuntuacion"

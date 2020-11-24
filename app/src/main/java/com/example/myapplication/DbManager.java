@@ -61,6 +61,12 @@ public class DbManager {
                 null, null, null);
     }
 
+    public Cursor getFotoJugador (String nomUsuario) {
+        String QueryMaxPt = "SELECT " + DbContract.DbEntry.COLUMN_FOTO + " FROM " + DbContract.DbEntry.TABLE_JUGADORES + " WHERE "+ DbContract.DbEntry.COLUMN_NOMJUGADOR + "= '"+ nomUsuario+ "'";
+        Cursor cursor = db.rawQuery(QueryMaxPt, null);
+        return cursor;
+    }
+
     public void delete_Jugadores(String nomUsuario)
     {
         db.delete(DbContract.DbEntry.TABLE_JUGADORES, DbContract.DbEntry.COLUMN_NOMJUGADOR + "= '" + nomUsuario + "'", null);
@@ -93,14 +99,15 @@ public class DbManager {
     }
 
 
-    public void insertJugador(String playerName){
+    public void insertJugador(String playerName, byte[] image){
         this.db.insert(DbContract.DbEntry.TABLE_JUGADORES, null,
-                this.generateContentValues(playerName));
+                this.generateContentValues(playerName, image));
     }
 
-    private ContentValues generateContentValues(String playerName){
+    private ContentValues generateContentValues(String playerName, byte[] image){
         ContentValues contentValues = new ContentValues();
         contentValues.put(DbContract.DbEntry.COLUMN_NOMJUGADOR, playerName);
+        contentValues.put(DbContract.DbEntry.COLUMN_FOTO, image);
         return contentValues;
     }
 

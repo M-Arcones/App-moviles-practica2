@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
@@ -11,6 +13,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -23,7 +26,7 @@ public class GestionUsuario extends AppCompatActivity  implements View.OnClickLi
     private Animation scaleUp, scaleDown;
     private String usuario_seleccionado, tema_seleccionado;
     private Button ButtonVolver, ButtonNuevoUsuario, ButtonEliminarUsuario, ButtonModificarUsuario;
-
+    private ImageView imageView;
     private DbManager dbManager;
     private Cursor c_usuarios;
 
@@ -49,6 +52,7 @@ public class GestionUsuario extends AppCompatActivity  implements View.OnClickLi
         ButtonNuevoUsuario.setOnClickListener(this);
         ButtonEliminarUsuario.setOnClickListener(this);
         ButtonModificarUsuario.setOnClickListener(this);
+        imageView=findViewById(R.id.imageViewGestion);
         scaleUp= AnimationUtils.loadAnimation(this, R.anim.scale_up);
         scaleDown= AnimationUtils.loadAnimation(this, R.anim.scale_down);
 
@@ -101,7 +105,12 @@ public class GestionUsuario extends AppCompatActivity  implements View.OnClickLi
                     findViewById(R.id.LayoutDatosJugador).setVisibility(View.GONE);
                 }else{
                     findViewById(R.id.LayoutDatosJugador).setVisibility(View.VISIBLE);
-
+                    Cursor c_Foto = dbManager.getFotoJugador(arrayList.get(position));
+                    c_Foto.moveToFirst();
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(c_Foto.getBlob(c_Foto.getColumnIndex(
+                            DbContract.DbEntry.COLUMN_FOTO)),0,c_Foto.getBlob(c_Foto.getColumnIndex(
+                                    DbContract.DbEntry.COLUMN_FOTO)).length);
+                    imageView.setImageBitmap(bitmap);
                     int n_partidas=dbManager.getNPartidas(arrayList.get(position));
                     ((TextView)findViewById(R.id.TxtNpartidas)).setText("Nº de partidas: " + n_partidas);
                     if(n_partidas>0){
