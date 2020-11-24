@@ -112,9 +112,32 @@ public class Alta_jugador extends AppCompatActivity implements View.OnClickListe
                 toast.show();
                 b.putString("nom_jugador", editText.getText().toString());
 
-                intent = new Intent(this, GestionUsuario.class);
-                intent.putExtras(b);
-                startActivity(intent);
+                Cursor c_usuarios=dbManager.getJugadores();
+                c_usuarios.moveToFirst();
+                int i=0;
+                while(!c_usuarios.isAfterLast() && i==0) {
+                    if(((EditText) findViewById(R.id.InputTextNombre)).getText().toString().equals(c_usuarios.getString(c_usuarios.getColumnIndex(DbContract.DbEntry.COLUMN_NOMJUGADOR)))){
+                        i=1;
+                    }
+                    c_usuarios.moveToNext();
+                }
+                if(i==0){
+                    dbManager.insertJugador(((EditText) findViewById(R.id.InputTextNombre)).getText().toString(), imageBlob);
+                    CharSequence text = "Usuario Guardado";
+                    int duration = Toast.LENGTH_SHORT;
+                    Toast toast = Toast.makeText(this, text, duration);
+                    toast.show();
+                    b.putString("nom_jugador", ((EditText) findViewById(R.id.InputTextNombre)).getText().toString());
+
+                    intent = new Intent(this, GestionUsuario.class);
+                    intent.putExtras(b);
+                    startActivity(intent);
+                }else{
+                    CharSequence text = "Usuario Repetido";
+                    int duration = Toast.LENGTH_SHORT;
+                    Toast toast = Toast.makeText(this, text, duration);
+                    toast.show();
+                }
                 break;
             case (R.id.Btn_subirImagen):
                 intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);

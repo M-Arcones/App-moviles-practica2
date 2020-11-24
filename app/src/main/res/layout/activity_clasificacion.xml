@@ -48,6 +48,10 @@
             android:id="@+id/Layout_Jugadores"
             android:layout_width="159dp"
             android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight= "5dp"
+            android:layout_marginBottom= "10dp"
+            android:layout_marginTop="10dp"
             android:orientation="vertical">
 
             <TextView
@@ -115,6 +119,10 @@
             android:id="@+id/Layout_Puntos"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight= "10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom= "10dp"
             android:orientation="vertical">
 
             <TextView
